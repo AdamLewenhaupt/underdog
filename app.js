@@ -6,9 +6,12 @@ var express = require('express')
   , routes = require('./routes')
   , http = require('http')
   , path = require('path')
+  , lessMW = require('less-middleware')
   , persistent = require('./persistant');
 
 var app = express();
+
+persistent.connect();
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -19,6 +22,7 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
+  app.use(lessMW({ src: path.join(__dirname, 'public'), compress: true }));
   app.use(express.static(path.join(__dirname, 'public')));
 });
 
@@ -27,7 +31,9 @@ app.configure('development', function(){
 });
 
 app.get('/', routes.index);
-app.get('/persistent/:type/:id', persistent.get);
+app.get('/persistent/:type/:id?', persistent.get);
+app.post('/persistent/:type', persistent.post);
+app.put('/persistent/:type/:id', persistent.put);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

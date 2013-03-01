@@ -1,12 +1,16 @@
-define(["underscore"], function(_){
+define([], function(){
 
 	return function(main, options){
 
 		if(!options.url && !main.type) console.error((main.type+": "||"")+"no url in persistent UFront");
-		main.model.url = options.url || ("/" + main.type);
+		main.Model.urlRoot = "/persistent" + (options.url || ("/" + main.type)) + "/";
+		
 		main.onInit('self', function(self){
-			if(self.model.id)
-				self.model.fetch();
+
+			self.Model.on('change', function(){
+				self.Model.save();
+			});
+
 		});
 	}
 

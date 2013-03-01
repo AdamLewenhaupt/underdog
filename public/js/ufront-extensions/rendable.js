@@ -4,15 +4,10 @@ define([], function(){
 		//Assert required options.
 		if(!options.template) console.error((main.type+": "||"")+"no template");
 
-		var tmp = main.View.extend({
-				template: _.template(options.template),
-
-				render: function(){
-					this.$el.html(this.template(this.model.attributes));
-				}
-			 });
-
-		main.View = tmp;
+		main.View.template = _.template(options.template);
+		main.View.render = function(){
+			this.$el.html(this.template(this.model.attributes));
+		};
 
 		main.onInit('view', function(view){
 			view.render();

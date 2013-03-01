@@ -6,14 +6,18 @@ define([
 	 "ufront-extensions/loader"
 	,"ufront-extensions/persistent" 
 	,"ufront-extensions/defaults"
-	,"ufront-extensions/rendable"], 
-	function(loader, persistent, defaults, rendable){
+	,"ufront-extensions/rendable"
+	,"ufront-extensions/unclickable-text"
+	,"ufront-extensions/resizeable"], 
+	function(loader, persistent, defaults, rendable, unclickableText, resizeable){
 		return {
 			attributes: {
 			loader: loader,
 			persistent: persistent,
 			defaults: defaults,
-			rendable: rendable
+			rendable: rendable,
+			"unclickable-text": unclickableText,
+			resizeable: resizeable
 			}
 		}
 	});

@@ -43,39 +43,42 @@ define(["jquery"], function($){
 
 		main.onInit('view', function(view){
 
-			var img = $("<img/>")
-					.css({
-						"background-color": "white"
-					}).attr("src", "/images/loading.gif");
+			view.model.on('provide', function(){
+				var img = $("<img/>")
+						.css({
+							"background-color": "white"
+						}).attr("src", "/images/loading.gif");
 
-			var cover = $("<div/>")
-					.css({
-						position: position[view.$el.css("position")],
-						"background-color": "white",
-						"text-align": "center"
-					}).html(img);
+				var cover = $("<div/>")
+						.css({
+							position: position[view.$el.css("position")],
+							"background-color": "white",
+							"text-align": "center"
+						}).html(img);
 
-			view.$el.addClass('loading');
-			view.$el.after(cover);
-			
-			resize(cover, view.$el, img);
-
-			view.$el.resize(function(){
+				view.$el.addClass('loading');
+				view.$el.after(cover);
+				
 				resize(cover, view.$el, img);
-			});
 
-			if(typeof(options.callBack) === "string")
-				options.callBack = main[options.callBack];
-
-			options.callBack(function(){
-
-				cover.animate({
-					opacity: 0
-				}, 500, function(){
-					cover.remove();
+				view.$el.resize(function(){
+					resize(cover, view.$el, img);
 				});
 
-				view.$el.removeClass('loading');
+				if(typeof(options.callBack) === "string")
+					options.callBack = main[options.callBack];
+
+				options.callBack(function(){
+
+					cover.animate({
+						opacity: 0
+					}, 500, function(){
+						cover.remove();
+					});
+
+					view.$el.removeClass('loading');
+				});
+
 			});
 		});
 

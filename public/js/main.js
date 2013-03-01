@@ -4,7 +4,8 @@ requirejs.config({
 	    "jquery": "libs/jquery",
 	    "underscore": "libs/underscore",
 	    "backbone": "libs/backbone",
-	    "jquery-libs" : "libs/jquery-libs/"
+	    "jquery-libs" : "libs/jquery-libs/",
+	    "jquery-ui": "libs/jquery-ui"
 	},
 	shim: {
 		underscore: {
@@ -18,74 +19,25 @@ requirejs.config({
 
 		"jquery-libs/img-dl": ["jquery"]
 
+
 	},
 
-	packages: ["ufront", "ufront-extensions"]
+	packages: ["ufront-extensions"]
 });
 
-requirejs(["jquery", 'ufront'], function($, UFront){
+requirejs([
+		 "jquery"
+		, 'ufront/ufront'
+		, 'backbone'
+		, 'ufront/ugrid'
+	], 
 
-	$(function(){
+	function($, UFront, Backbone, UGrid){
 
-		var Test = new UFront({
+		console.log("Init app");
+		var start = new Date().getTime();
 
-			type: "block",
+		var background = new UGrid;
 
-			attributes: {
-
-				loader: {
-					callBack: "done"
-				},
-
-				defaults: {
-					name: 'default',
-					color: 'blue',
-					width: 120,
-					height: 120,
-					left: Math.floor((Math.random()*1200)+1),
-					top: Math.floor((Math.random()*600)+1)
-				},
-
-				rendable: {
-					template: "<h2><%= name %></h2>",
-
-					triggers: [
-						"name"
-					]
-				}
-			},
-
-			extend: function(main){
-
-				main.done = function(fn){
-					setTimeout(fn, 1000);
-				}
-
-				main.onInit('view', function(view){
-
-					view.$el.css({
-						position: "fixed",
-						width: view.model.get("width"),
-						height: view.model.get("height"),
-						"background-color": view.model.get("color"),
-						left: view.model.get("left"),
-						top: view.model.get("top"),
-						"text-align": "center"
-					});
-
-					view.on('dblclick', function(){
-						alert("shit");
-					});
-
-				});
-
-			}
-		});
-
-		var t = new Test.Create({
-			view: {
-				el: '#test'
-			}
-		});
-	});
+		console.log("kickin'");
 });
