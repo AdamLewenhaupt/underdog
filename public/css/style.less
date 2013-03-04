@@ -22,5 +22,71 @@ h2 {
 .u-grid {
 	overflow: hidden;
 	position: absolute;
-	border: 1px solid black;
+}
+
+@offset: 5px;
+
+.block {
+	position: absolute;
+	left: @offset;
+	right: @offset;
+	top: @offset;
+	bottom: @offset;
+}
+
+.menu {
+	.block;
+	font-size: 36px;
+	background-color: gray;
+
+	ul {
+
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		text-align: center;
+
+		li {
+			top: 2.5%;
+			margin-bottom: 5%;
+			position: relative;
+			width: 90%;
+			height: 45%;
+		}
+	}
+}
+
+.community-chat {
+	.block;
+	background-color: lightblue;
+	text-align: center;
+	font-size: 50px;
+}
+
+.hotspot {
+	.block;
+	background-color: lightgreen;
+	text-align: center;
+	font-size: 50px;
+}
+
+.stat {
+	.block;
+	background-color: pink;
+	text-align: center;
+	font-size: 50px;
+}
+
+.motd {
+	.block;
+	background-color: #FFFF99;
+	text-align: center;
+	font-size: 50px;
+}
+
+.title {
+	.block;
+	background-color: #85A3C2;
+	text-align: center;
+	font-size: 50px;
 }

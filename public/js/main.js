@@ -26,18 +26,20 @@ requirejs.config({
 });
 
 requirejs([
-		 "jquery"
-		, 'ufront/ufront'
+		"assert"
+		, "jquery"
 		, 'backbone'
-		, 'ufront/ugrid'
+		, 'designer'
 	], 
 
-	function($, UFront, Backbone, UGrid){
+	function(assert, $, Backbone, design){
+
+		assert("Loaded", [$, Backbone, design]);
 
 		console.log("Init app");
 		var start = new Date().getTime();
 
-		var background = new UGrid;
+		design();
 
-		console.log("kickin'");
+		console.log("kickin' after: " + (new Date().getTime() - start));
 });

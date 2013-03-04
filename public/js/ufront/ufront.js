@@ -43,6 +43,8 @@ define(["backbone", "ufront-extensions", "underscore", "jquery"],
 
 		};
 
+		if(options.className) this.View.className = options.className;
+
 		this.onInit = function(type, fn){
 			self[type+'Inits'].push(fn);
 		};
@@ -70,11 +72,11 @@ define(["backbone", "ufront-extensions", "underscore", "jquery"],
 
 			var m = this;
 			self.selfInits.forEach(function(f){
-				f(m);
+				f(m, options);
 			});
 
-			this.provide = function($el){
-				$el.append(m.$el);
+			this.provide = function(ugrid){
+				ugrid.saturate(m);
 				m.Model.trigger('provide', m);
 			}
 		};

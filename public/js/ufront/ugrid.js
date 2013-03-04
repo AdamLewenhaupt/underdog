@@ -83,11 +83,11 @@ define(["jquery"], function($){
 				self.left = new UGrid({parent: self.$el, area: "left", size: left});
 				self.right = new UGrid({parent: self.$el, area: "right", size: right});
 				self.split = true;
-				if(fn) fn();
+				if(fn) fn(self);
 			});
 		};
 
-		this.splitH = function(fn){
+		this.splitH = function(x, fn){
 
 			var up, down;
 
@@ -104,11 +104,11 @@ define(["jquery"], function($){
 				self.up = new UGrid({parent: self.$el, area: 'up', size: up});
 				self.down = new UGrid({parent: self.$el, area: 'down', size: down});
 				self.split = true;
-				if(fn) fn();
+				if(fn) fn(self);
 			});
 		};
 
-		this.subscribe = function(ufront){
+		this.saturate = function(ufront){
 			$(function(){
 				if(self.split){
 					console.error("split grid can't contain content");

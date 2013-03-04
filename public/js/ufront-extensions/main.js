@@ -8,8 +8,16 @@ define([
 	,"ufront-extensions/defaults"
 	,"ufront-extensions/rendable"
 	,"ufront-extensions/unclickable-text"
-	,"ufront-extensions/resizeable"], 
-	function(loader, persistent, defaults, rendable, unclickableText, resizeable){
+	,"ufront-extensions/resizeable"
+	,"ufront-extensions/buttons"], 
+	
+	function(loader
+	, persistent
+	, defaults
+	, rendable
+	, unclickableText
+	, resizeable
+	, buttons){
 		return {
 			attributes: {
 			loader: loader,
@@ -17,7 +25,8 @@ define([
 			defaults: defaults,
 			rendable: rendable,
 			"unclickable-text": unclickableText,
-			resizeable: resizeable
+			resizeable: resizeable,
+			buttons: buttons
 			}
 		}
 	});
