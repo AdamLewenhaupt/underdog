@@ -8,6 +8,14 @@ var communitySchema = new Schema({
 
 var Community = mongoose.model('Community', communitySchema);
 
+function pub(c){
+	return {
+		name: c.name,
+		users: c.users,
+		id: c._id
+	}
+}
+
 exports.get = function(id, fn){
 	if(id){
 		Community.findById(id, function(err, community){

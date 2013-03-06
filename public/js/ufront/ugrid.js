@@ -11,6 +11,8 @@ define(["jquery"], function($){
 
 		var self = this;
 
+		self.provider = false;
+
 		$(function(){
 			self.$parent = parent || $('body');
 			self.$el = $("<div class='u-grid' />");
@@ -113,11 +115,47 @@ define(["jquery"], function($){
 				if(self.split){
 					console.error("split grid can't contain content");
 					return;
+				} else if(self.provider) {
+					console.error("allready has a provider");
+					return;
 				} else {
 					self.$el.html(ufront.$el);
+					self.provider = ufront;
 				}
 			});
 		};
+
+		this.clean = function (options){
+
+			var exec = function (){
+				if(self.left){
+					self.left.clean();
+					self.right.clean();
+					self.split = false;
+
+					delete self.left;
+					delete self.right;
+
+					self.$el.html("");
+				} 
+
+				else if(self.up) {
+					self.up.clean();
+					self.down.clean();
+				}
+
+				else if(self.provider) {
+					self.provider.unsubscribe(self);
+					self.$el.html("");
+				}
+			}
+
+			if(options)
+				self.$el.animate(options, 500, exec);
+			else 
+				exec();
+			
+		}
 	}
 
 	return UGrid;

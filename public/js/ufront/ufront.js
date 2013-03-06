@@ -66,6 +66,7 @@ define(["backbone", "ufront-extensions", "underscore", "jquery"],
 
 			options = options || {};
 
+			this.subscribers = [];
 			this.Model = new self.Model(options.model);
 			this.View = new self.View(_.extend(options.view || {}, { model: this.Model }));
 			this.$el = this.View.$el;
@@ -77,9 +78,27 @@ define(["backbone", "ufront-extensions", "underscore", "jquery"],
 
 			this.provide = function(ugrid){
 				ugrid.saturate(m);
+				m.subscribers.push(ugrid);
 				m.Model.trigger('provide', m);
 			}
+
+			this.unsubscribe = function(ugrid){
+				var index = m.subscribers.indexOf(ugrid);
+
+				if(index === -1){
+					console.error("UGrid not found");
+					return;
+				} else {
+					m.subscribers.splice(index, 1);
+				}
+			};
 		};
+
+		var tmp;
+		tmp = this.Model;
+		this.Model = Backbone.Model.extend(tmp);
+		tmp = this.View;
+		this.View = Backbone.View.extend(tmp);
 
 		this.load = function(fn){
 
@@ -107,12 +126,6 @@ define(["backbone", "ufront-extensions", "underscore", "jquery"],
 				}
 			});
 		};
-
-		var tmp;
-		tmp = this.Model;
-		this.Model = Backbone.Model.extend(tmp);
-		tmp = this.View;
-		this.View = Backbone.View.extend(tmp);
 	}
 
 	return UFront;

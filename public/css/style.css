@@ -7,14 +7,14 @@ blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}
 table{border-collapse:collapse;border-spacing:0;}
 .unclickable-text{-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;cursor:default;}
 body{font:14px "Lucida Grande",Helvetica,Arial,sans-serif;}
-h1{font-size:50px;color:#00B7FF;}
-h2{font-size:25px;color:white;}
 #test{display:inline-block;}
 .u-grid{overflow:hidden;position:absolute;}
 .block{position:absolute;left:5px;right:5px;top:5px;bottom:5px;}
 .menu{position:absolute;left:5px;right:5px;top:5px;bottom:5px;font-size:36px;background-color:gray;}.menu ul{position:absolute;width:100%;height:100%;text-align:center;}.menu ul li{top:2.5%;margin-bottom:5%;position:relative;width:90%;height:45%;}
-.community-chat{position:absolute;left:5px;right:5px;top:5px;bottom:5px;background-color:lightblue;text-align:center;font-size:50px;}
+.community-chat{position:absolute;left:5px;right:5px;top:5px;bottom:5px;background-color:lightblue;text-align:center;font-size:30px;}.community-chat .rooms{width:100%;height:100%;overflow:auto;}
+.community-chat ul li{width:97%;}
 .hotspot{position:absolute;left:5px;right:5px;top:5px;bottom:5px;background-color:lightgreen;text-align:center;font-size:50px;}
 .stat{position:absolute;left:5px;right:5px;top:5px;bottom:5px;background-color:pink;text-align:center;font-size:50px;}
 .motd{position:absolute;left:5px;right:5px;top:5px;bottom:5px;background-color:#FFFF99;text-align:center;font-size:50px;}
-.title{position:absolute;left:5px;right:5px;top:5px;bottom:5px;background-color:#85A3C2;text-align:center;font-size:50px;}
+.title{position:absolute;left:5px;right:5px;top:5px;bottom:5px;background-color:#85A3C2;text-align:center;}.title h1{font-size:48px;}
+.title h2{font-size:36px;}

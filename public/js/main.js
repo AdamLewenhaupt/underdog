@@ -30,14 +30,19 @@ requirejs([
 		, "jquery"
 		, 'backbone'
 		, 'designer'
+		, 'router'
 	], 
 
-	function(assert, $, Backbone, design){
+	function(assert, $, Backbone, design, Router){
 
-		assert("Loaded", [$, Backbone, design]);
+		assert("Loaded", [$, Backbone, design, Router]);
 
 		console.log("Init app");
 		var start = new Date().getTime();
+
+		Router.init({
+			":community": "community"
+		});
 
 		design();
 

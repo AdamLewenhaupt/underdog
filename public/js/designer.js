@@ -18,18 +18,6 @@ define([
 
 	return function () {
 
-	var menu = new Menu ({
-		items: {
-			community: function (){
-				console.log("works");
-			},
-
-			members: function (){
-				console.log("works");
-			}
-		}
-	});
-
 	var communityChat = new Chat({
 		view: {
 			className: 'community-chat'
@@ -50,6 +38,17 @@ define([
 
 	var title = new Title;
 
+	var menu = new Menu ({
+		items: {
+			community: function (){
+			},
+
+			members: function (){
+				background.up.clean({opacity: 0});
+			}
+		}
+	});
+
 	// Setup grid structure.
 	// Define top and bottom.
 	background.splitH(60, function(){
@@ -66,7 +65,6 @@ define([
 				grid.up.splitH(function (grid){
 
 					title.provide(grid.up);
-					title.$el.html("Community title<br/>Members: 234");
 
 					motd.provide(grid.down);
 					motd.$el.html("Member of the day");
@@ -88,7 +86,6 @@ define([
 			background.down.right.splitV(function (grid){
 
 				communityChat.provide(grid.left);
-				communityChat.$el.html("Chat");
 
 				unknown.provide(grid.right);
 				unknown.$el.html("God knows");
