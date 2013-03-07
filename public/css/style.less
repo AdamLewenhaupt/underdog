@@ -1,5 +1,10 @@
 @import 'reset.less';
+@import 'jquery-ui.less';
 @import 'attributes.less';
+
+.ui-button {
+	margin: 0px;
+}
 
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -56,10 +61,32 @@ body {
 		width: 100%;
 		height: 100%;
 		overflow: auto;
+		overflow-x: hidden;
+
+		ul li {
+			width: 100%;
+		}
+	}
+}
+
+.input {
+	text-align: left;
+
+	.msg {
+		position: absolute;
+		left: 0px;
+		right: 0px;
+		height: 100%;
+		font-size: 100%;
+		border: 0px;
 	}
 
-	ul li {
-		width: 97%;
+	.send {
+		right: 0px;
+		position: absolute;
+		display: inline-block;
+		width: 30%;
+		height: 100%;
 	}
 }
 

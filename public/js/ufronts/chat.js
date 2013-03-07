@@ -5,7 +5,63 @@ define([
 
 	var View = new UFront({
 		type: "view",
-		className: "view"
+		className: "view",
+
+		attributes: {
+			defaults: {
+				logg: []
+			}
+		},
+
+		rendable: {
+			template:
+				"<ul>"+
+					"<% _.each(logg, function(l){ %><%= l.sender %>: <%= l.message %><% }); %>"+
+				"</ul>",
+
+			triggers: ["logg"]
+		}
+
+	}).Create;
+
+	var Input = new UFront({
+
+		type: "input",
+		className: "input",
+
+		events: {
+			"keypress :input": "send"
+		},
+
+		extend: function(main){
+
+			function _send($el){
+
+				var msg = $el.find(".msg"),
+					text = msg.val();
+
+				msg.val("");
+				return text;
+
+			}
+
+			main.View.send = function (e){
+
+				$el = this.$el;
+
+				$target = $(e.currentTarget);
+
+				if(e.keyCode === 13){
+					console.log(_send($el));
+				}
+			};
+
+			main.onInit('view', function(view){
+
+				view.$el.html("<input type='text' class='msg' />");
+			});
+		}
+
 	}).Create;
 
 	var Rooms = new UFront({
@@ -16,10 +72,6 @@ define([
 
 			defaults: { 
 				rooms: [
-					{ name: "test" },
-					{ name: "test" },
-					{ name: "test" },
-					{ name: "test" },
 					{ name: "test" },
 					{ name: "test" },
 					{ name: "test" },
@@ -57,8 +109,13 @@ define([
 
 			main.childs = {
 				view: new View,
-				rooms: new Rooms
+				rooms: new Rooms,
+				input: new Input
 			};
+
+			for(var c in main.childs){
+				main.childs[c].host = main;
+			}
 
 			main.onInit('view', function (view){
 
@@ -68,7 +125,12 @@ define([
 
 				}).splitV(70, function (self){
 
-					main.childs.view.provide(self.left);
+					self.left.splitH(80, function (self){
+
+						main.childs.input.provide(self.down);
+
+					});
+
 					main.childs.rooms.provide(self.right);
 				});
 			});
