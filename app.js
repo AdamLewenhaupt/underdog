@@ -3,12 +3,12 @@
  */
 
 var express = require('express')
-  , io = require('socket.io')
   , routes = require('./routes')
   , http = require('http')
   , path = require('path')
   , lessMW = require('less-middleware')
-  , persistent = require('./persistant');
+  , persistent = require('./persistant')
+  , services = require('./services').services;
 
 var app = express();
 
@@ -38,7 +38,7 @@ app.put('/persistent/:type/:id', persistent.put);
 
 var server = http.createServer(app);
 
-io.listen(server);
+services.io.init(server);
 
 server.listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

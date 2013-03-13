@@ -7,6 +7,7 @@ define([], function(){
 		main.View.template = _.template(options.template);
 		main.View.render = function(){
 			this.$el.html(this.template(this.model.attributes));
+			if(options.onRend) options.onRend(this);
 		};
 
 		main.onInit('view', function(view){
@@ -16,6 +17,7 @@ define([], function(){
 				options.triggers.forEach(function(a){
 					view.model.on('change:' + a, function(){
 						view.render();
+						view.model.trigger("render");
 					});
 				});
 			}

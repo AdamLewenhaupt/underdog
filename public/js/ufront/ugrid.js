@@ -18,6 +18,8 @@ define(["jquery"], function($){
 			self.$el = $("<div class='u-grid' />");
 			self.$parent.append(self.$el);
 
+			if(options.class) self.$el.addClass(options.class);
+
 			var style;
 
 			switch(area){

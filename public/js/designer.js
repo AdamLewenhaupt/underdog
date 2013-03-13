@@ -32,7 +32,7 @@ define([
 
 	var fameStat = new Stat;
 	
-	var background = new UGrid;
+	var background = new UGrid({ class: "background" });
 
 	var motd = new MOTD;
 

@@ -2,6 +2,11 @@
 @import 'jquery-ui.less';
 @import 'attributes.less';
 
+@active-color: #4db8db;
+@background-color: #DBDBDB;
+@foreground-color: white;
+@core-color: #CDCDCD;
+
 .ui-button {
 	margin: 0px;
 }
@@ -16,7 +21,11 @@ body {
 
 .u-grid {
 	overflow: hidden;
-	position: absolute;
+	position: absolute;	
+}
+
+.u-grid.background {
+	background-color: @core-color;
 }
 
 @offset: 5px;
@@ -32,7 +41,7 @@ body {
 .menu {
 	.block;
 	font-size: 36px;
-	background-color: gray;
+	background-color: @background-color;
 
 	ul {
 
@@ -53,32 +62,100 @@ body {
 
 .community-chat {
 	.block;
-	background-color: lightblue;
+	background-color: @background-color;
 	text-align: center;
 	font-size: 30px;
 
 	.rooms {
 		width: 100%;
 		height: 100%;
-		overflow: auto;
+		overflow-y: scroll;
 		overflow-x: hidden;
 
-		ul li {
+		.selector {
+
 			width: 100%;
+
+			label {
+				margin: 0px;
+				width: 100%;
+			}
+		}
+	}
+
+	.view {
+		text-align: left;
+		overflow-y: scroll;
+		width: 100%;
+		height: 100%;
+
+		ul {
+			background-color: @background-color;
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+			overflow-y: scroll;
+		}
+
+		ul li {
+			@m-margin: 5px;
+			@m-offset: @m-margin * 2px;
+			@sender-end: 80px;
+
+			position: relative;
+			margin: @m-margin;
+			width: 100%;
+			height: 40px;
+
+			.sender {
+				position: absolute;
+				display: block;
+				background-color: white;
+				text-align: center;
+				height: 100%;
+				width: @sender-end - @m-offset;
+				border: 2px solid @active-color;
+			}
+
+			.message {
+				position: absolute;
+				display: block;
+				height: 100%;
+				left: @sender-end;
+				right: @m-offset;
+				border: 2px solid @active-color;
+				background-color: white;
+
+				p {
+					margin: 2px;
+				}
+			}
 		}
 	}
 }
 
 .input {
+	position: relative;
+	width: 100%;
+	height: 100%;
 	text-align: left;
+	background-color: white;
 
 	.msg {
 		position: absolute;
+		margin: 0px;
 		left: 0px;
 		right: 0px;
 		height: 100%;
 		font-size: 100%;
 		border: 0px;
+		border-bottom: 4px solid @active-color;
+		box-sizing: border-box;
+	}
+
+	.msg:focus {
+		outline-width: 0px;
 	}
 
 	.send {
@@ -113,7 +190,7 @@ body {
 
 .title {
 	.block;
-	background-color: #85A3C2;
+	background-color: @foreground-color;
 	text-align: center;
 	
 	h1 {
