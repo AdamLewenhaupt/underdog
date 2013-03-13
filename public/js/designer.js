@@ -88,7 +88,7 @@ define([
 				communityChat.provide(grid.left);
 
 				unknown.provide(grid.right);
-				unknown.$el.html("God knows");
+				unknown.$el.html("Profile");
 				
 			});
 		});

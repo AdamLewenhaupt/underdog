@@ -46,3 +46,7 @@ exports.put = function put(req, res){
 		res.send(retval);
 	});
 }
+
+exports.access = function access(model){
+	return models[model].model;
+}

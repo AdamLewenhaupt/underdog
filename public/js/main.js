@@ -34,11 +34,12 @@ requirejs([
 		, 'backbone'
 		, 'designer'
 		, 'router'
+		, 'user'
 	], 
 
-	function(assert, IO, $, Backbone, design, Router){
+	function(assert, IO, $, Backbone, design, Router, User){
 
-		assert("Loaded", [IO, $, Backbone, design, Router]);
+		assert("Loaded", [IO, $, Backbone, design, Router, User]);
 
 		IO.initialize();
 
@@ -50,6 +51,8 @@ requirejs([
 		});
 
 		design();
+
+		User.initialize();
 
 		console.log("kickin' after: " + (new Date().getTime() - start));
 });

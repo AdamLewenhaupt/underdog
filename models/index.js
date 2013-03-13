@@ -1,5 +1,4 @@
-var community = require('./community');
-
 exports.models = {
-	community: community
+	community: require('./community'),
+	user: require('./user')
 }

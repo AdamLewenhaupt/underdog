@@ -12,7 +12,7 @@ var pushable = {
 
 		socket.emit(name+":down-change:loggs", { room: "Social", change: [{ sender: "S", message: "Aloha :)" }] });
 		socket.on(name+":up-change:loggs", function (data){
-			
+
 			if(data.change.message === "hello")
 				socket.emit(name+":down-change:loggs", { room: data.room, change: { sender: "S", message: "Hello :)" }});
 		});
@@ -23,6 +23,11 @@ exports.init = function (server){
 	io = _io.listen(server, {log: false});
 
 	io.sockets.on('connection', function (socket){
+
+		socket.on('auth', function (data){
+			console.log("User authenticated");
+			socket.emit("community-chat:down-change:loggs", {room: "Feedback", change: { sender: "S", message: "Welcome" } });
+		});
 
 		socket.on('pushable', function (id){
 			console.log("New pushable: " + id);

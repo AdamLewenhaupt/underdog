@@ -4,5 +4,6 @@ such as algorithms, chatting, broadcasting etc.
 */
 
 exports.services = {
-	io: require('./io')
+	io: require('./io'),
+	auth: require('./auth')
 }
