@@ -1,20 +1,22 @@
 define([
-	"ufront/ugrid"
+	  "ufront/ugrid"
 	, "ufronts/chat"
 	, "ufronts/menu"
 	, "ufronts/hotspot"
 	, "ufronts/stat"
 	, "ufronts/motd"
-	, "ufronts/title"], 
+	, "ufronts/title"
+	, "ufronts/profile"], 
 
 	function (
-		UGrid
+		  UGrid
 		, Chat
 		, Menu
 		, Hotspot
 		, Stat
 		, MOTD
-		, Title){
+		, Title
+		, Profile){
 
 	return function () {
 
@@ -26,7 +28,7 @@ define([
 
 	var hotspot = new Hotspot;
 
-	var unknown = new Hotspot;
+	var profile = new Profile;
 
 	var growthStat = new Stat;
 
@@ -87,9 +89,7 @@ define([
 
 				communityChat.provide(grid.left);
 
-				unknown.provide(grid.right);
-				unknown.$el.html("Profile");
-				
+				profile.provide(grid.right);				
 			});
 		});
 	});

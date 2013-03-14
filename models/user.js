@@ -26,6 +26,6 @@ exports.post = function(data, fn){
 		});
 
 	} else {
-		fn({ error: "no id" });
+		fn({ error: "no data" });
 	}
 }

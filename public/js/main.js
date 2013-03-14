@@ -52,7 +52,5 @@ requirejs([
 
 		design();
 
-		User.initialize();
-
 		console.log("kickin' after: " + (new Date().getTime() - start));
 });

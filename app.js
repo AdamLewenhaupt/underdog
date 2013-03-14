@@ -20,9 +20,7 @@ app.configure(function(){
   app.set('view engine', 'jade');
   app.use(express.favicon());
   app.use(express.logger('dev'));
-  app.use(express.cookieParser());
   app.use(express.bodyParser());
-  app.use(express.session({ secret: "the most secret secret in secret" }));
   services.auth.use(app);
   app.use(express.methodOverride());
   app.use(app.router);

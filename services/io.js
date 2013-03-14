@@ -25,8 +25,7 @@ exports.init = function (server){
 	io.sockets.on('connection', function (socket){
 
 		socket.on('auth', function (data){
-			console.log("User authenticated");
-			socket.emit("community-chat:down-change:loggs", {room: "Feedback", change: { sender: "S", message: "Welcome" } });
+			socket.emit("community-chat:down-change:loggs", {room: "Feedback", change: { sender: "S", message: "Welcome " + data.name } });
 		});
 
 		socket.on('pushable', function (id){
