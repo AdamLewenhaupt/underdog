@@ -39,8 +39,3 @@ exports.on = function (name, fn){
 	if(!io) console.error("IO.init has not been called");
 	io.sockets.on(name, fn);
 };
-
-exports.config = function (){
-	io.set("transports", ["xhr-polling"]);
-	io.set("polling duration", 10);
-};
