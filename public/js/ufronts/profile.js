@@ -24,7 +24,10 @@ define(["ufront/ufront", "user"], function (UFront, User){
 								"<input autocomplete='off' type='password', name='password' />"+
 							"</div>"+
 						"</div><% }"+
-					"else { %>:)<% } %>"
+					"else { %>"+
+						"<div class='identified' ><h1>This is the best profile ever...<br/>"+
+						"Oh and also your name is: <span><%= name %></span></h1></div>"+
+					"<% } %>"
 					),
 
 				triggers: ["auth"]

@@ -59,7 +59,7 @@ define([
 		background.up.splitV(30, function (grid){
 
 			hotspot.provide(grid.right);
-			hotspot.$el.html("Hotspot");
+			hotspot.$el.html("#5134fcb5a7214c9e22000001");
 
 			//Define Title, (Member)OTD and fame.
 			background.up.left.splitH(80, function (grid){
