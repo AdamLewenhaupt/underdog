@@ -22,6 +22,7 @@ define(["ufront/ufront", "user"], function (UFront, User){
 							"<div class='auth'>"+
 								"<input autocomplete='off' type='text' name='username' />"+
 								"<input autocomplete='off' type='password', name='password' />"+
+								"<div class='signup' >Or signup</div>"+
 							"</div>"+
 						"</div><% }"+
 					"else { %>"+
@@ -31,6 +32,10 @@ define(["ufront/ufront", "user"], function (UFront, User){
 					),
 
 				triggers: ["auth"]
+			},
+
+			buttons: {
+				buttons: [".signup"]
 			}
 		},
 
