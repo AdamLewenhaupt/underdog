@@ -1,20 +1,22 @@
 define([
-	"ufront/ugrid"
+	  "ufront/ugrid"
 	, "ufronts/chat"
 	, "ufronts/menu"
 	, "ufronts/hotspot"
 	, "ufronts/stat"
 	, "ufronts/motd"
-	, "ufronts/title"], 
+	, "ufronts/title"
+	, "ufronts/profile"], 
 
 	function (
-		UGrid
+		  UGrid
 		, Chat
 		, Menu
 		, Hotspot
 		, Stat
 		, MOTD
-		, Title){
+		, Title
+		, Profile){
 
 	return function () {
 
@@ -26,13 +28,13 @@ define([
 
 	var hotspot = new Hotspot;
 
-	var unknown = new Hotspot;
+	var profile = new Profile;
 
 	var growthStat = new Stat;
 
 	var fameStat = new Stat;
 	
-	var background = new UGrid;
+	var background = new UGrid({ class: "background" });
 
 	var motd = new MOTD;
 
@@ -57,7 +59,7 @@ define([
 		background.up.splitV(30, function (grid){
 
 			hotspot.provide(grid.right);
-			hotspot.$el.html("Hotspot");
+			hotspot.$el.html("#5134fcb5a7214c9e22000001");
 
 			//Define Title, (Member)OTD and fame.
 			background.up.left.splitH(80, function (grid){
@@ -87,9 +89,7 @@ define([
 
 				communityChat.provide(grid.left);
 
-				unknown.provide(grid.right);
-				unknown.$el.html("God knows");
-				
+				profile.provide(grid.right);				
 			});
 		});
 	});

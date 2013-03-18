@@ -9,7 +9,9 @@ define([
 	,"ufront-extensions/rendable"
 	,"ufront-extensions/unclickable-text"
 	,"ufront-extensions/resizeable"
-	,"ufront-extensions/buttons"], 
+	,"ufront-extensions/buttons"
+	,"ufront-extensions/pushable"
+	,"ufront-extensions/buttonsets"], 
 	
 	function(loader
 	, persistent
@@ -17,16 +19,20 @@ define([
 	, rendable
 	, unclickableText
 	, resizeable
-	, buttons){
+	, buttons
+	, pushable
+	, buttonsets){
 		return {
 			attributes: {
-			loader: loader,
-			persistent: persistent,
-			defaults: defaults,
-			rendable: rendable,
-			"unclickable-text": unclickableText,
-			resizeable: resizeable,
-			buttons: buttons
+				buttonsets: buttonsets,
+				loader: loader,
+				persistent: persistent,
+				defaults: defaults,
+				rendable: rendable,
+				"unclickable-text": unclickableText,
+				resizeable: resizeable,
+				buttons: buttons,
+				pushable: pushable
 			}
 		}
 	});

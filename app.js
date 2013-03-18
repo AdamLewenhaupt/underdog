@@ -3,12 +3,12 @@
  */
 
 var express = require('express')
-  , io = require('socket.io')
   , routes = require('./routes')
   , http = require('http')
   , path = require('path')
   , lessMW = require('less-middleware')
-  , persistent = require('./persistant');
+  , persistent = require('./persistant')
+  , services = require('./services').services;
 
 var app = express();
 
@@ -21,6 +21,7 @@ app.configure(function(){
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
+  services.auth.use(app);
   app.use(express.methodOverride());
   app.use(app.router);
   app.use(lessMW({ src: path.join(__dirname, 'public'), compress: true }));
@@ -36,9 +37,11 @@ app.get('/persistent/:type/:id?', persistent.get);
 app.post('/persistent/:type', persistent.post);
 app.put('/persistent/:type/:id', persistent.put);
 
+services.auth.route(app);
+
 var server = http.createServer(app);
 
-io.listen(server);
+services.io.init(server);
 
 server.listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

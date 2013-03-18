@@ -17,25 +17,31 @@ requirejs.config({
 			deps: ['underscore', 'jquery']
 		},
 
-		"jquery-libs/img-dl": ["jquery"]
+		"jquery-libs/img-dl": ["jquery"],
+		"jquery-libs/mousewheel": ["jquery"],
+		"jquery-libs/scrollbar": ["jquery", "jquery-libs/mousewheel"]
 
 
 	},
 
-	packages: ["ufront-extensions"]
+	packages: ["ufront-extensions", "ufronts/chat"]
 });
 
 requirejs([
 		"assert"
+		, "io"
 		, "jquery"
 		, 'backbone'
 		, 'designer'
 		, 'router'
+		, 'user'
 	], 
 
-	function(assert, $, Backbone, design, Router){
+	function(assert, IO, $, Backbone, design, Router, User){
 
-		assert("Loaded", [$, Backbone, design, Router]);
+		assert("Loaded", [IO, $, Backbone, design, Router, User]);
+
+		IO.initialize();
 
 		console.log("Init app");
 		var start = new Date().getTime();

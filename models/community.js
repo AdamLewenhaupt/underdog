@@ -16,6 +16,8 @@ function pub(c){
 	}
 }
 
+exports.model = Community;
+
 exports.get = function(id, fn){
 	if(id){
 		Community.findById(id, function(err, community){

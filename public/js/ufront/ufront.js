@@ -24,7 +24,9 @@ define(["backbone", "ufront-extensions", "underscore", "jquery"],
 				self.modelInits.forEach(function(f){
 					f(model);
 				});
-			}
+			},
+
+			ufront: self
 
 		};
 
@@ -39,7 +41,9 @@ define(["backbone", "ufront-extensions", "underscore", "jquery"],
 				});
 			},
 
-			events: options.events
+			events: options.events,
+
+			ufront: self
 
 		};
 
