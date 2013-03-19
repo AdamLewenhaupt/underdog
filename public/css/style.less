@@ -7,8 +7,19 @@
 @foreground-color: white;
 @core-color: #CDCDCD;
 
+@media-max-1: 1499px;
+@media-min-1: 400px;
+@media-max-2: 1799px;
+@media-min-2: 1500px;
+@media-max-3: 1899px;
+@media-min-3: 1800px;
+
 .ui-button {
 	margin: 0px;
+}
+
+.default-input {
+	color: gray;
 }
 
 body {
@@ -30,6 +41,21 @@ body {
 
 @offset: 5px;
 
+.scale-font(@size: 16px) {
+
+	@media (min-width: @media-min-1) and (max-width: @media-max-1) {
+		font-size: @size;
+	}
+
+	@media (min-width: @media-min-2) and (max-width: @media-max-2) {
+		font-size: @size * 1.5;
+	}
+
+	@media (min-width: @media-min-3) and (max-width: @media-max-3) {
+		font-size: @size * 2;
+	}
+}
+
 .block {
 	position: absolute;
 	left: @offset;
@@ -40,7 +66,7 @@ body {
 
 .menu {
 	.block;
-	font-size: 36px;
+	.scale-font(25px);
 	background-color: @background-color;
 
 	ul {
@@ -73,6 +99,8 @@ body {
 		overflow-x: hidden;
 
 		.selector {
+
+			.scale-font;
 
 			width: 100%;
 
@@ -203,9 +231,8 @@ body {
 }
 
 .profile {
-	width: 100%;
-	height: 100%;
-	background-color: @background-color;
+	.block;
+	background-color: @foreground-color;
 
 	.login {
 		background-color: @foreground-color;
@@ -216,7 +243,8 @@ body {
 		h1 {
 			position: relative;
 			top: 10px;
-			font-size: 50px;
+
+			.scale-font(26px);
 		}
 
 		.auth {
@@ -248,7 +276,7 @@ body {
 				left: 0px;
 				width: 50%;
 				top: 80 * 2px;
-				font-size: 56px;
+				.scale-font(18px);
 			}
 
 		}

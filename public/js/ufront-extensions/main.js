@@ -11,9 +11,11 @@ define([
 	,"ufront-extensions/resizeable"
 	,"ufront-extensions/buttons"
 	,"ufront-extensions/pushable"
-	,"ufront-extensions/buttonsets"], 
+	,"ufront-extensions/buttonsets"
+	,"ufront-extensions/default-fields"], 
 	
-	function(loader
+	function(
+	  loader
 	, persistent
 	, defaults
 	, rendable
@@ -21,7 +23,8 @@ define([
 	, resizeable
 	, buttons
 	, pushable
-	, buttonsets){
+	, buttonsets
+	, defaultFields){
 		return {
 			attributes: {
 				buttonsets: buttonsets,
@@ -32,7 +35,8 @@ define([
 				"unclickable-text": unclickableText,
 				resizeable: resizeable,
 				buttons: buttons,
-				pushable: pushable
+				pushable: pushable,
+				"default-fields": defaultFields
 			}
 		}
 	});

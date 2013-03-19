@@ -5,7 +5,8 @@ define(["ufront/ufront", "user"], function (UFront, User){
 		className: "profile",
 
 		events: {
-			"keypress .login .auth": "login"
+			"keypress .login .auth": "login",
+			"click .login .signup": "signup"
 		},
 
 		attributes: {
@@ -36,6 +37,15 @@ define(["ufront/ufront", "user"], function (UFront, User){
 
 			buttons: {
 				buttons: [".signup"]
+			},
+
+			"default-fields": {
+				targets: [
+					{
+						el: "input[name='username']",
+						default: "Username"
+					}
+				]
 			}
 		},
 
@@ -59,6 +69,20 @@ define(["ufront/ufront", "user"], function (UFront, User){
 					User.auth(username, password);
 				}
 			};
+
+			main.View.signup = function (e){
+
+				var $el = this.$el;
+
+				$el.find(".login").animate({
+
+					opacity: 0
+
+				}, 500, function (){
+					$(this).remove();
+				});
+			};
+
 		}
 	});
 
