@@ -6,7 +6,7 @@ define(["ufront/ufront", "user"], function (UFront, User){
 
 		events: {
 			"keypress .login .auth": "login",
-			"click .login .signup": "signup"
+			"click .login .signup-btn": "signup"
 		},
 
 		attributes: {
@@ -23,7 +23,7 @@ define(["ufront/ufront", "user"], function (UFront, User){
 							"<div class='auth'>"+
 								"<input autocomplete='off' type='text' name='username' />"+
 								"<input autocomplete='off' type='password', name='password' />"+
-								"<div class='signup' >Or signup</div>"+
+								"<div class='signup-btn' >Or signup</div>"+
 							"</div>"+
 						"</div><% }"+
 					"else { %>"+
@@ -36,7 +36,7 @@ define(["ufront/ufront", "user"], function (UFront, User){
 			},
 
 			buttons: {
-				buttons: [".signup"]
+				buttons: [".signup-btn"]
 			},
 
 			"default-fields": {
@@ -80,9 +80,44 @@ define(["ufront/ufront", "user"], function (UFront, User){
 
 				}, 500, function (){
 					$(this).remove();
+					$el.html(
+						"<div class='signup'><form>"+
+								"<input autocomplete='off' type='text' name='username' />"+
+								"<input autocomplete='off' type='password', name='password' />"+
+								"<button class='signup-submit'>Join the fun</div>"+
+						"</form></div>"
+						);
+
+					$el.find("form").submit(function (){
+						
+						var $this = $(this);
+
+						$.ajax({
+							type: "post",
+							url: "/persistent/user",
+							data: {
+								name: $this.children("input[name='username']").val(),
+								password: $this.children("input[name='password']").val()
+							},
+
+							success: function (data){
+								if(data.error) return console.log(error);
+								$el.find(".signup").animate({
+
+									opacity: 0
+
+								}, 500, function (){
+									$(this).remove();				
+								});
+							}
+						});
+
+						return false;
+					})
+
+					$el.find(".signup-submit").button();
 				});
 			};
-
 		}
 	});
 
