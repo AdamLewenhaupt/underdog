@@ -6,7 +6,8 @@ define(["ufront/ufront"], function (UFront){
 		className: "fame",
 
 		events: {
-			"click .progress" : "inc"
+			"click .progress" : "inc",
+			"click .level": "inc"
 		},
 
 		attributes: {
@@ -27,7 +28,9 @@ define(["ufront/ufront"], function (UFront){
 			rendable: {
 				template: "<div class='progress' /><div class='level' >Fame 1</div>",
 				triggers: []
-			}
+			},
+
+			"unclickable-text": {}
 		},
 
 		extend: function (main){
