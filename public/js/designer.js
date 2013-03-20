@@ -6,7 +6,8 @@ define([
 	, "ufronts/stat"
 	, "ufronts/motd"
 	, "ufronts/title"
-	, "ufronts/profile"], 
+	, "ufronts/profile"
+	, "ufronts/fame"], 
 
 	function (
 		  UGrid
@@ -16,7 +17,8 @@ define([
 		, Stat
 		, MOTD
 		, Title
-		, Profile){
+		, Profile
+		, Fame){
 
 	return function () {
 
@@ -32,7 +34,7 @@ define([
 
 	var growthStat = new Stat;
 
-	var fameStat = new Stat;
+	var fame = new Fame;
 	
 	var background = new UGrid({ class: "background" });
 
@@ -72,8 +74,7 @@ define([
 					motd.$el.html("Member of the day");
 				});
 
-				fameStat.provide(grid.down);
-				fameStat.$el.html("Fame");
+				fame.provide(grid.down);
 
 			});
 

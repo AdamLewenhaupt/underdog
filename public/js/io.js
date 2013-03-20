@@ -11,9 +11,7 @@ define([], function(){
 
 	return {
 		initialize: function() {
-			socket = io.connect('http://beviewed.herokuapp.com/', {
-				transports: ["xhr-polling"]
-			});
+			socket = io.connect('http://localhost');
 			inited = true;
 			init.forEach(function(fn){
 				fn();

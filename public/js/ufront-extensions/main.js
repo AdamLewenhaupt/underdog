@@ -12,7 +12,8 @@ define([
 	,"ufront-extensions/buttons"
 	,"ufront-extensions/pushable"
 	,"ufront-extensions/buttonsets"
-	,"ufront-extensions/default-fields"], 
+	,"ufront-extensions/default-fields"
+	,"ufront-extensions/progressable"], 
 	
 	function(
 	  loader
@@ -24,7 +25,8 @@ define([
 	, buttons
 	, pushable
 	, buttonsets
-	, defaultFields){
+	, defaultFields
+	, progressable){
 		return {
 			attributes: {
 				buttonsets: buttonsets,
@@ -36,7 +38,8 @@ define([
 				resizeable: resizeable,
 				buttons: buttons,
 				pushable: pushable,
-				"default-fields": defaultFields
+				"default-fields": defaultFields,
+				progressable: progressable
 			}
 		}
 	});
