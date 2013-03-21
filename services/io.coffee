@@ -56,6 +56,8 @@ exports.init = (server) ->
         unless err
           socket.emit "fame:down-change:progress", community.progress
           socket.emit "fame:down-change:fame", community.fame
+          socket.emit "title:down-change:name", community.name
+          socket.emit "title:down-change:users", community.users.length
 
 
 

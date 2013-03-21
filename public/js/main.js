@@ -46,21 +46,15 @@ requirejs([
 		console.log("Init app");
 		var start = new Date().getTime();
 
-		IO.onInit(function (){
-			Router.onInit(function (){
-
-				var id = Router.flags().community;
-
-				//If a community is loaded.
-				if(id) {
-					IO.emit("community", id);
-				}
-
-			});
-		})
-
 		Router.init({
 			":community": "community"
+		}, {
+			community: function (community){
+
+				IO.onInit(function (){
+					IO.emit("community", community);
+				});
+			}
 		});
 
 		design();
