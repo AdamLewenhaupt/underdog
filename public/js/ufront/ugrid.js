@@ -1,4 +1,5 @@
 define(["jquery"], function($){
+
 	function UGrid(options){
 
 		options = options || {};
@@ -130,7 +131,9 @@ define(["jquery"], function($){
 		this.clean = function (options){
 
 			var exec = function (){
+				
 				if(self.left){
+
 					self.left.clean();
 					self.right.clean();
 					self.split = false;

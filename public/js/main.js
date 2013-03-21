@@ -54,6 +54,8 @@ requirejs([
 				IO.onInit(function (){
 					IO.emit("community", community);
 				});
+
+				this.navigate("");
 			}
 		});
 
