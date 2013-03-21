@@ -54,7 +54,8 @@ exports.init = (server) ->
     socket.on "community", (id) ->
       persistent.access("community").findById id, (err, community) ->
         unless err
-          console.log community
+          socket.emit "fame:down-change:progress", community.progress
+          socket.emit "fame:down-change:fame", community.fame
 
 
 

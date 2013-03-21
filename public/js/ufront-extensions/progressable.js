@@ -6,7 +6,7 @@ define(["jquery-ui"], function ($ui){
 		options.targets.forEach(function (progress){
 
 			$el.find(progress.el).progressbar({
-				value: progress.progress
+				value: view.model.get(progress.trigger) || progress.progress
 			});
 
 			if(progress.trigger){

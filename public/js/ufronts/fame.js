@@ -13,7 +13,7 @@ define(["ufront/ufront", "router"], function (UFront, Router){
 		attributes: {
 
 			defaults: {
-				progress: 10,
+				progress: 0,
 				fame: 1
 			},
 
@@ -35,7 +35,7 @@ define(["ufront/ufront", "router"], function (UFront, Router){
 
 				targets: [{
 					el: ".progress",
-					progress: 10,
+					progress: 0,
 					trigger: "progress"
 				}]
 			},
