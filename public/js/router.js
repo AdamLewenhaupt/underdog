@@ -1,32 +1,26 @@
-define(["backbone"], function (Backbone){
-
-	function empty(){
-
-	}
+define(["backbone", "underscore", "io"], function (Backbone, _, IO){
 
 	var Workspace,
 		onInit = [],
 		inited = false,
-		router,
-		flags = {};
+		router;
 
 	return {
-		flags: function (){
-			return flags;
-		},
 
-		init: function (targets){
+		init: function (targets, handles){
 
 			Backbone.history.start();
 
-			Workspace = Backbone.Router.extend({ routes: targets });
+			Workspace = Backbone.Router.extend(_.extend({ routes: targets }, handles));
 
 			router = new Workspace;
 
 			var init = Backbone.history.fragment;
 			if(init !== ""){
+				IO.onInit(function (){
+					IO.emit("community", init);
+				});
 				router.navigate("");
-				flags.community = init;
 			}	
 
 			onInit.forEach(function (fn){

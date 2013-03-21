@@ -1,30 +1,45 @@
 define(["jquery-ui"], function ($ui){
+
+	function progress(view, options){
+		var $el = view.$el;
+
+		options.targets.forEach(function (progress){
+
+			$el.find(progress.el).progressbar({
+				value: view.model.get(progress.trigger) || progress.progress
+			});
+
+			if(progress.trigger){
+
+				view.model.on("change:"+progress.trigger, function (){
+
+					$el.find(progress.el).progressbar('option', {
+
+						value: view.model.get(progress.trigger)
+					});
+				});
+			}
+		});
+	}
+
 	return function(main, options){
 
 		if(!options.targets) return console.error("No targets");
 
-		main.onInit('model', function (model){
-			model.on('provide', function (m){
+		if(main.hasAttr("rendable")){
 
-				var $el = m.$el;
+			main.onRend(function (view){
+				progress(view, options);
+			});
 
-				options.targets.forEach(function (progress){
+		} else {
+			main.onInit('model', function (model){
+				model.on('provide', function (m){
 
-					$el.find(progress.el).progressbar({
-						value: progress.progress
-					});
-
-					if(progress.trigger){
-						model.on("change:"+progress.trigger, function (){
-
-							$el.find(progress.el).progressbar('option', {
-
-								value: model.get(progress.trigger)
-							});
-						});
-					}
+					progress(m.View, options);
 				});
 			});
-		});
+
+		}
 	}
 });

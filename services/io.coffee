@@ -1,26 +1,36 @@
 #
 #A project wrapper for the socket.io package.
 #
+persistent = require('../persistant')
 _io = require("socket.io")
 io = false
 
 # Pre-programmed push-behavior.
-pushable = "community-chat": (socket) ->
-  name = "community-chat"
-  socket.emit name + ":down-change:loggs",
-    room: "Social"
-    change: [
-      sender: "S"
-      message: "Aloha :)"
-    ]
+pushable =
+  "fame": (socket) ->
+    name = "fame"
+    socket.on "#{name}:up-change:progress", (data) ->
+      if data >= 100
+        socket.emit "#{name}:down-change:progress", 0
+        socket.emit "#{name}:down-change:fame", 2
 
-  socket.on name + ":up-change:loggs", (data) ->
-    if data.change.message is "hello"
-      socket.emit name + ":down-change:loggs",
-        room: data.room
-        change:
-          sender: "S"
-          message: "Hello :)"
+
+  "community-chat": (socket) ->
+    name = "community-chat"
+    socket.emit name + ":down-change:loggs",
+      room: "Social"
+      change: [
+        sender: "S"
+        message: "Aloha :)"
+      ]
+
+    socket.on name + ":up-change:loggs", (data) ->
+      if data.change.message is "hello"
+        socket.emit name + ":down-change:loggs",
+          room: data.room
+          change:
+            sender: "S"
+            message: "Hello :)"
 
 
 
@@ -41,8 +51,16 @@ exports.init = (server) ->
       console.log "New pushable: " + id
       pushable[id] socket  if pushable[id]
 
+    socket.on "community", (id) ->
+      persistent.access("community").findById id, (err, community) ->
+        unless err
+          socket.emit "fame:down-change:progress", community.progress
+          socket.emit "fame:down-change:fame", community.fame
+          socket.emit "title:down-change:name", community.name
+          socket.emit "title:down-change:users", community.users.length
+
 
 
 exports.on = (name, fn) ->
-  console.error "IO.init has not been called"  unless io
+  console.error "IO.init has not been called" unless io
   io.sockets.on name, fn

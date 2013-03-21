@@ -1,4 +1,4 @@
-define(["ufront/ufront"], function (UFront){
+define(["ufront/ufront", "router"], function (UFront, Router){
 
 	var Fame = new UFront({
 
@@ -6,28 +6,41 @@ define(["ufront/ufront"], function (UFront){
 		className: "fame",
 
 		events: {
-			"click .progress" : "inc"
+			"click .progress" : "inc",
+			"click .level": "inc"
 		},
 
 		attributes: {
 
 			defaults: {
-				progress: 10
+				progress: 0,
+				fame: 1
+			},
+
+			rendable: {
+				template: "<div class='progress' /><div class='level' >Fame <%= fame %></div>",
+				triggers: ["fame"]
+			},
+
+			pushable: {
+				id: "fame",
+
+				attributes: [
+					{ name: "fame" },
+					{ name: "progress" }
+				]
 			},
 
 			progressable: {
 
 				targets: [{
 					el: ".progress",
-					progress: 10,
+					progress: 0,
 					trigger: "progress"
 				}]
 			},
 
-			rendable: {
-				template: "<div class='progress' /><div class='level' >Fame 1</div>",
-				triggers: []
-			}
+			"unclickable-text": {}
 		},
 
 		extend: function (main){

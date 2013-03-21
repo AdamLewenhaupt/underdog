@@ -10,34 +10,29 @@ define([
 			
 			className: "title",
 
-			extend: function (main){
-
-				main.onInit('model', function (model){
-					Router.onInit(function (){
-						var id = Router.flags().community;
-						if(id) {
-							model.url = "/persistent/community/" + id;
-							model.id = id;
-							model.fetch();
-						}
-					});
-				});
-			},
-
 			attributes: {
 
 				defaults: {
 					name: "Unknown community",
-					users: []
+					users: 0
 				},
 
 				rendable: {
-					template: "<h1><%= name %></h1><br/><h2>Members: <%= users.length %></h2>",
+					template: "<h1><%= name %></h1><br/><h2>Members: <%= users %></h2>",
 
 					triggers: [
 						"name",
 						"users"
 					]				
+				},
+
+				pushable: {
+					id: "title",
+
+					attributes: [
+						{ name: "name" }, 
+						{ name: "users" }
+					]
 				}
 			}
 		});

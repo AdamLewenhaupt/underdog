@@ -48,6 +48,13 @@ requirejs([
 
 		Router.init({
 			":community": "community"
+		}, {
+			community: function (community){
+
+				IO.onInit(function (){
+					IO.emit("community", community);
+				});
+			}
 		});
 
 		design();
