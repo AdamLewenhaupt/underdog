@@ -53,6 +53,10 @@ define(["backbone", "ufront-extensions", "underscore", "jquery"],
 			self[type+'Inits'].push(fn);
 		};
 
+		this.hasAttr = function(name){
+			return self.attributes.indexOf(name) !== -1;
+		};
+
 		if(options.extend) options.extend(self);
 
 		//Add extensions.

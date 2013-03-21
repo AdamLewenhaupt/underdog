@@ -12,6 +12,7 @@
     "socket.io": "*",
     "passport": "*",
     "passport-local": "*",
-    "coffee-script": "*"
+    "coffee-script": "*",
+    "phpass": "*"
   }
 }

@@ -26,18 +26,19 @@ authenticate = (req, res) ->
 
   else if req.body.username and req.body.password
     persistent.access("user").findOne
-      name: req.body.username
-      password: req.body.password
+      name: req.body.username.toLowerCase()
     , (err, user) ->
       unless err
-        login = new persistent.access("login")(uid: user._id)
-        login.save (err) ->
-          unless err
-            res.send
-              auth: true
-              assigned: login._id
-              user: user.name
-
+        if user
+          user.verify req.body.password, (verified) ->
+            if verified 
+              login = new persistent.access("login")(uid: user._id)
+              login.save (err) ->
+                unless err
+                  res.send
+                    auth: true
+                    assigned: login._id
+                    user: user.name
 
 
   else

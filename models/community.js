@@ -3,7 +3,9 @@ var mongoose = require('mongoose'),
 
 var communitySchema = new Schema({
 	users: [String],
-	name: String
+	name: String,
+	fame: Number,
+	progress: Number
 });
 
 var Community = mongoose.model('Community', communitySchema);

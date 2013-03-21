@@ -1,10 +1,33 @@
 var mongoose = require('mongoose'),
+	PasswordHash = require('phpass').PasswordHash,
 	Schema = mongoose.Schema;
+
+var passHash = new PasswordHash();
 
 var userSchema = new Schema({
 	name: String,
 	password: String
 });
+
+userSchema.pre('save', function(next){
+
+	if(this.isModified('name')){
+		this.name = this.name.toLowerCase();
+	}
+
+	if(!this.isModified('password')) return next();
+
+	var hash = passHash.hashPassword(this.password);
+
+	this.password = hash;
+
+	next();
+
+});
+
+userSchema.methods.verify = function(password, cb){
+	cb(passHash.checkPassword(password, this.password));
+};
 
 function pub(user){
 	return {
