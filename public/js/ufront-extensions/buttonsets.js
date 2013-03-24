@@ -6,21 +6,40 @@ define(["jquery-ui"], function($ui){
 			return;
 		}
 
-		main.onInit('model', function (model){
-			model.on('provide', function (m){
-				$(function (){
-					options.sets.forEach(function (bset){
+		if(main.hasAttr("rendable")) {
 
-						var $set = m.$el.find(bset);
+			main.onRend(function (view){
 
-						$set.buttonset();
+				var $el = view.$el;
 
-						$set.on('change', function (e){
-							model.trigger(bset+":change", m.$el.find(bset+" input[type='radio']:checked").val());
+				options.sets.forEach(function (bset){
+
+					var $set = $el.find(bset);
+					$set.buttonset();
+					$set.on('change', function (e){
+						view.model.trigger(bset+":change", $el.find(bset+" input[type='radio']:checked").val());
+					});
+				});
+			});
+
+		} else {
+
+			main.onInit('model', function (model){
+				model.on('provide', function (m){
+					$(function (){
+						options.sets.forEach(function (bset){
+
+							var $set = m.$el.find(bset);
+
+							$set.buttonset();
+
+							$set.on('change', function (e){
+								model.trigger(bset+":change", m.$el.find(bset+" input[type='radio']:checked").val());
+							});
 						});
 					});
 				});
 			});
-		});
+		}
 	}
 });

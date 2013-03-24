@@ -16,11 +16,7 @@ define(["ufronts/chat/input"
 
 			defaults: {
 
-				rooms: [
-					{ name: "Feedback" },
-					{ name: "Private" },
-					{ name: "Social" }
-				],
+				rooms: [],
 
 				loggs: {}
 			},
@@ -40,6 +36,19 @@ define(["ufronts/chat/input"
 							var m = model.ufront.childs.view.Model;
 							return { room: m.get("loggName"), change: _.last(data[m.get("loggName")]) };
 						}
+				},
+
+				{
+					name: "rooms",
+
+					"down-parse": function (data) {
+
+						var result = _.map(data, function (room){
+							return { name: room }
+						});
+
+						return result;
+					}
 				}],
 					id: "community-chat"
 			}
@@ -76,7 +85,9 @@ define(["ufronts/chat/input"
 				main.childs.view.Model.set("loggName", Object.keys(model.get("loggs"))[0]);
 
 				//Push the chat rooms to the rooms ufront.
-				model.on("change:rooms", main.childs.rooms.Model.set("rooms", model.get("rooms")));
+				model.on("change:rooms", function (){
+					main.childs.rooms.Model.set("rooms", model.get("rooms"))
+				});
 
 				//This event is triggered when a new room is selected.
 				main.childs.rooms.Model.on(".selector:change", function (room){

@@ -16,23 +16,7 @@ pushable =
 
 
   "community-chat": (socket) ->
-    name = "community-chat"
-    socket.emit name + ":down-change:loggs",
-      room: "Social"
-      change: [
-        sender: "S"
-        message: "Aloha :)"
-      ]
-
-    socket.on name + ":up-change:loggs", (data) ->
-      if data.change.message is "hello"
-        socket.emit name + ":down-change:loggs",
-          room: data.room
-          change:
-            sender: "S"
-            message: "Hello :)"
-
-
+    return
 
 exports.init = (server) ->
   io = _io.listen(server,
@@ -40,16 +24,11 @@ exports.init = (server) ->
   )
   io.sockets.on "connection", (socket) ->
     socket.on "auth", (data) ->
-      socket.emit "community-chat:down-change:loggs",
-        room: "Feedback"
-        change:
-          sender: "S"
-          message: "Welcome " + data.name
-
+      console.log "#{data.name} is authenticated"
 
     socket.on "pushable", (id) ->
-      console.log "New pushable: " + id
-      pushable[id] socket  if pushable[id]
+      console.log "New pushable: #{id}"
+      pushable[id] socket if pushable[id]
 
     socket.on "community", (id) ->
       persistent.access("community").findById id, (err, community) ->
@@ -58,6 +37,8 @@ exports.init = (server) ->
           socket.emit "fame:down-change:fame", community.fame
           socket.emit "title:down-change:name", community.name
           socket.emit "title:down-change:users", community.users.length
+          socket.emit "community-chat:down-change:rooms", community.rooms
+          socket.emit "community-chat:down-change:chatlogs", community.chatlogs
 
 
 

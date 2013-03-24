@@ -4,8 +4,12 @@ var mongoose = require('mongoose'),
 var communitySchema = new Schema({
 	users: [String],
 	name: String,
+
 	fame: Number,
-	progress: Number
+	progress: Number,
+
+	rooms: [String],
+	chatlogs: [String]
 });
 
 var Community = mongoose.model('Community', communitySchema);
