@@ -24,32 +24,22 @@ define(["ufronts/chat/input"
 			pushable: {
 				attributes: [
 					{ 
-						name: "loggs", 
-						type: Object,  
+						name: "loggs"
+					},
 
-						parse: function(attr, data){ 
-							if(!attr[data.room]) console.error("There is no such room");
-							attr[data.room] = attr[data.room].concat(data.change); 
-						},
+					{
+						name: "rooms",
 
-						"up-parse": function (data, model){
-							var m = model.ufront.childs.view.Model;
-							return { room: m.get("loggName"), change: _.last(data[m.get("loggName")]) };
+						"down-parse": function (data) {
+
+							var result = _.map(data, function (room){
+								return { name: room }
+							});
+
+							return result;
 						}
-				},
+					}],
 
-				{
-					name: "rooms",
-
-					"down-parse": function (data) {
-
-						var result = _.map(data, function (room){
-							return { name: room }
-						});
-
-						return result;
-					}
-				}],
 					id: "community-chat"
 			}
 		},

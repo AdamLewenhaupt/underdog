@@ -16,7 +16,9 @@ pushable =
 
 
   "community-chat": (socket) ->
-    return
+    name = "community-chat"
+    socket.on "#{name}:up-change:loggs", (data) ->
+      console.log(data)
 
 exports.init = (server) ->
   io = _io.listen(server,
@@ -37,8 +39,11 @@ exports.init = (server) ->
           socket.emit "fame:down-change:fame", community.fame
           socket.emit "title:down-change:name", community.name
           socket.emit "title:down-change:users", community.users.length
+          logRouter = {}
+          for i in [0..community.rooms.length]
+            logRouter[community.rooms[i]] = community.chatlogs[i]
           socket.emit "community-chat:down-change:rooms", community.rooms
-          socket.emit "community-chat:down-change:chatlogs", community.chatlogs
+          socket.emit "community-chat:down-change:loggs", logRouter
 
 
 
