@@ -61,10 +61,10 @@ define(["ufronts/chat/input"
 				//What to do when text is submited.
 				main.childs.input.Model.on("change:text", function (_model){
 					var text = _model.get("text"),
-						logg = model.get("loggs")[main.childs.view.Model.get("loggName")];
+						logg = main.childs.view.Model.get("logg");
 
 					logg.push({ sender: "Me", message: text });
-					model.trigger('change:loggs');
+					main.childs.view.Model.trigger('change:logg');
 				});
 
 				model.get("rooms").forEach(function (room){
@@ -88,8 +88,8 @@ define(["ufronts/chat/input"
 
 				//Push the changed logg to the view ufront.
 				model.on("change:loggs", function (){
+					main.childs.view.Model.set("loggName", Object.keys(model.get("loggs"))[0]);
 					main.childs.view.Model.set("logg", model.get("loggs")[main.childs.view.Model.get("loggName")]);
-					main.childs.view.Model.trigger("change:logg");
 				});
 			});
 
