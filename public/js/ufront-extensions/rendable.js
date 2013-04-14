@@ -32,7 +32,7 @@ define([], function(){
 							view.model.trigger("render");
 						});
 					} else {
-						console.log(a);
+						
 						view.model.on('change:' + a.name, function (){
 							if(a.when ? a.when(view.model.get(a.name)) : true) {
 								view.render();

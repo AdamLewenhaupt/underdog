@@ -50,11 +50,8 @@ requirejs([
 			":community": "community"
 		}, {
 			community: function (community){
-
-				IO.onInit(function (){
-					IO.emit("community", community);
-				});
-
+				
+				IO.emit("community", community);
 				this.navigate("");
 			}
 		});

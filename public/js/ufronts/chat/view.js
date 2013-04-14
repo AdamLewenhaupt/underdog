@@ -33,7 +33,15 @@ define(["jquery", "ufront/ufront", "io"], function($, UFront, IO){
 				triggers: [{ name: "logg", when: notStr }],
 
 				onRend: function (view){
+
 					var $ul = view.$el.find("ul");
+
+					$ul.find("li").each(function (){
+						
+						var $this = $(this);
+						$this.css("height", $this.find("p").height() + 4);
+					});
+
 					$ul.scrollTop($ul[0].scrollHeight);
 				}
 			}
@@ -44,6 +52,7 @@ define(["jquery", "ufront/ufront", "io"], function($, UFront, IO){
 			main.onInit('model', function (model){
 				
 				model.on("change:logg", function (){
+					
 					if(typeof(model.get("logg")) === "string")
 						IO.request("chatlog", model.get("logg"), function (err, logg){
 							if(err) {

@@ -84,11 +84,17 @@ define(["jquery"], function($){
 			}
 
 			$(function(){
+
+				var finished = 0;
+
+				function finish (){
+					if(++finished === 2 && fn) fn(self);
+				}
+
 				if(self.split) return;
-				self.left = new UGrid({parent: self.$el, area: "left", size: left});
-				self.right = new UGrid({parent: self.$el, area: "right", size: right});
+				self.left = new UGrid({parent: self.$el, area: "left", size: left, init: finish });
+				self.right = new UGrid({parent: self.$el, area: "right", size: right, init: finish });
 				self.split = true;
-				if(fn) fn(self);
 			});
 		};
 

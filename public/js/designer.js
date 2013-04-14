@@ -22,12 +22,6 @@ define([
 
 	return function () {
 
-	var communityChat = new Chat({
-		view: {
-			className: 'community-chat'
-		}
-	});
-
 	var hotspot = new Hotspot;
 
 	var profile = new Profile;
@@ -44,10 +38,10 @@ define([
 
 	var menu = new Menu ({
 		items: {
-			community: function (){
+			Community: function (){
 			},
 
-			members: function (){
+			Members: function (){
 				background.up.clean({opacity: 0});
 			}
 		}
@@ -61,7 +55,6 @@ define([
 		background.up.splitV(30, function (grid){
 
 			hotspot.provide(grid.right);
-			hotspot.$el.html("#514adbd63311f5b91b000001");
 
 			//Define Title, (Member)OTD and fame.
 			background.up.left.splitH(80, function (grid){
@@ -87,6 +80,12 @@ define([
 
 			// Define social bottom.
 			background.down.right.splitV(function (grid){
+
+				var communityChat = new Chat({
+					view: {
+						className: 'community-chat'
+					}
+				});
 
 				communityChat.provide(grid.left);
 

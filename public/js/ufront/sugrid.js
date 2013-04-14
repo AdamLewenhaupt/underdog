@@ -35,7 +35,7 @@ define(["jquery"], function ($){
 					} else {
 						style = {
 							left: 0,
-							right: size
+							right: size,
 							height: '100%' 
 						}
 					}
@@ -99,6 +99,8 @@ define(["jquery"], function ($){
 				break;
 			}
 
+			style.position = "absolute";
+
 			if(zindex) style["z-index"] = zindex;
 
 			self.$el.css(style);
@@ -109,7 +111,7 @@ define(["jquery"], function ($){
 
 		this.split = false;
 
-		this.splitV = function(y, align, fn){
+		this.splitH = function(y, align, fn){
 
 			$(function (){
 
@@ -128,12 +130,11 @@ define(["jquery"], function ($){
 				});
 
 				self.split = true;
-
 				if(fn) fn(self);
 			});
 		};
 
-		this.splitH = function(x, align, fn){
+		this.splitV = function(x, align, fn){
 
 			$(function (){
 
@@ -155,58 +156,58 @@ define(["jquery"], function ($){
 				if(fn) fn(self);
 			});
 		};
-	}
 
-	this.saturate = function(ufront){
-		$(function(){
-			if(self.split){
-				console.error("split grid can't contain content");
-				return;
-			} else if(self.provider) {
-				console.error("allready has a provider");
-				return;
-			} else {
-				self.$el.html(ufront.$el);
-				self.provider = ufront;
-			}
-		});
-	};
+		this.saturate = function(ufront){
+			$(function(){
+				if(self.split){
+					console.error("split grid can't contain content");
+					return;
+				} else if(self.provider) {
+					console.error("allready has a provider");
+					return;
+				} else {
+					self.$el.html(ufront.$el);
+					self.provider = ufront;
+				}
+			});
+		};
 
-	this.clean = function (options){
+		this.clean = function (options){
 
-		var exec = function (){
-			
-			if(self.left){
-
-				self.left.clean();
-				self.right.clean();
-				self.split = false;
-
-				delete self.left;
-				delete self.right;
-
-				self.$el.html("");
-			} 
-
-			else if(self.up) {
-
-				self.up.clean();
-				self.down.clean();
-			}
-
-			else if(self.provider) {
+			var exec = function (){
 				
-				self.provider.unsubscribe(self);
-				self.$el.html("");
-			}
-		}
+				if(self.left){
 
-		if(options)
-			self.$el.animate(options, 500, exec);
-		else 
-			exec();
-		
-	}
+					self.left.clean();
+					self.right.clean();
+					self.split = false;
+
+					delete self.left;
+					delete self.right;
+
+					self.$el.html("");
+				} 
+
+				else if(self.up) {
+
+					self.up.clean();
+					self.down.clean();
+				}
+
+				else if(self.provider) {
+					
+					self.provider.unsubscribe(self);
+					self.$el.html("");
+				}
+			}
+
+			if(options)
+				self.$el.animate(options, 500, exec);
+			else 
+				exec();
+			
+		}
+	};
 
 	return SUGrid;
 

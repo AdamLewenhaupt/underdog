@@ -4,9 +4,10 @@ define(["ufronts/chat/input"
 		,"ufront/ufront"
 		,"ufront/ugrid"
 		,"underscore"
+		,"ufront/sugrid"
 		], 
 
-	function(Input, Rooms, View, UFront, UGrid, _){
+	function(Input, Rooms, View, UFront, UGrid, _, SUGrid){
 
 	var Chat = new UFront({
 		type: "chat",
@@ -101,11 +102,17 @@ define(["ufronts/chat/input"
 
 				}).splitV(70, function (self){
 
-					self.left.splitH(80, function (self){
+					console.log(self.left.$el);
 
+					var ioGrid = new SUGrid({
+
+						parent: self.left.$el
+					});
+
+					ioGrid.splitH(32, "down", function (self){
+						
 						main.childs.view.provide(self.up);
 						main.childs.input.provide(self.down);
-
 					});
 
 					main.childs.rooms.provide(self.right);
