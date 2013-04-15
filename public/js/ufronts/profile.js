@@ -69,7 +69,8 @@ define(["ufront/ufront", "user"], function (UFront, User){
 						password = $(fields[1]).val();
 
 					User.auth(username, password);
-				} else {
+
+				} else if (!e.keyCode) {
 					
 					var username = $(fields[0]).val(),
 						password = $(fields[1]).val();

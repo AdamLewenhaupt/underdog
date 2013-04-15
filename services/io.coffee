@@ -35,7 +35,10 @@ exports.init = (server) ->
     socket.on "community", (id) ->
       persistent.access("community").findById id, (err, community) ->
         unless err
+          if socket.community
+            socket.leave(socket.community)
           socket.community = id
+          socket.join(id)
           socket.emit "fame:down-change:progress", community.progress
           socket.emit "fame:down-change:fame", community.fame
           socket.emit "title:down-change:name", community.name
@@ -49,10 +52,11 @@ exports.init = (server) ->
     socket.on "chat", (update) ->
       persistent.access("chatlog").findById update.room, (err, log) ->
         unless err
-          log.names.push update.data.sender
-          log.messages.push update.data.message
-          log.save()
-          socket.emit "community:#{socket.community}:change-chat:#{update.room}", update.data
+          if socket.community
+            log.names.push update.data.sender
+            log.messages.push update.data.message
+            log.save()
+            io.sockets.in(socket.community).emit "chat-update", update
 
 
 exports.on = (name, fn) ->
