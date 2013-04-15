@@ -6,7 +6,8 @@ define(["ufront/ufront", "user"], function (UFront, User){
 
 		events: {
 			"keypress .login .auth": "login",
-			"click .login .signup-btn": "signup"
+			"click .login .signup-btn": "signup",
+			"click .login .login-btn": "login"
 		},
 
 		attributes: {
@@ -23,6 +24,7 @@ define(["ufront/ufront", "user"], function (UFront, User){
 							"<div class='auth'>"+
 								"<input autocomplete='off' type='text' name='username' />"+
 								"<input autocomplete='off' type='password', name='password' />"+
+								"<div class='login-btn' >Login</div>"+
 								"<div class='signup-btn' >Or signup</div>"+
 							"</div>"+
 						"</div><% }"+
@@ -36,7 +38,7 @@ define(["ufront/ufront", "user"], function (UFront, User){
 			},
 
 			buttons: {
-				buttons: [".signup-btn"]
+				buttons: [".signup-btn", ".login-btn"]
 			},
 
 			"default-fields": {
@@ -63,6 +65,12 @@ define(["ufront/ufront", "user"], function (UFront, User){
 				var fields = this.$el.find(":input");
 
 				if(e.keyCode === 13){
+					var username = $(fields[0]).val(),
+						password = $(fields[1]).val();
+
+					User.auth(username, password);
+				} else {
+					
 					var username = $(fields[0]).val(),
 						password = $(fields[1]).val();
 

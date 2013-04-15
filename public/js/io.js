@@ -37,6 +37,32 @@ define([], function(){
 			this.onInit(function (){
 				socket.emit(name, data);
 			});
+		},
+
+		request: function (type, id, fn){
+			$.ajax({
+
+				type: "get",
+				url: "/persistent/" + type + "/" + id,
+
+				success: function (data){
+					if(data.error)
+						fn(data.error, null);
+					else
+						fn(null, data);
+				},
+
+				error: function (err){
+					fn(err, null);
+				}
+			});
+		},
+
+		chat: function (room, data){
+			this.emit("chat", {
+				room: room,
+				data: data
+			});
 		}
 	}
 

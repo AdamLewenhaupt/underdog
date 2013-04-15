@@ -1,6 +1,7 @@
-define(["jquery"], function($){
+define(["jquery"], function ($){
 
-	function UGrid(options){
+
+	function SUGrid(options){
 
 		options = options || {};
 
@@ -16,7 +17,7 @@ define(["jquery"], function($){
 
 		$(function(){
 			self.$parent = parent || $('body');
-			self.$el = $("<div class='u-grid' />");
+			self.$el = $("<div class='su-grid' />");
 			self.$parent.append(self.$el);
 
 			if(options.class) self.$el.addClass(options.class);
@@ -25,42 +26,80 @@ define(["jquery"], function($){
 
 			switch(area){
 				case 'left':
-					style = {
-						width: size + '%',
-						height: '100%'
+					if(options.align === "left" || !options.align){
+						style = {
+							left: 0,
+							width: size,
+							height: '100%'
+						}
+					} else {
+						style = {
+							left: 0,
+							right: size,
+							height: '100%' 
+						}
 					}
 				break;
 
 				case 'right':
-					style = {
-						right: 0,
-						width: size + '%',
-						height: '100%'
+					if(options.align === "left" || !options.align){
+						style = {
+							right: 0,
+							left: size,
+							height: '100%'
+						}
+					} else {
+						style = {
+							right: 0,
+							width: size,
+							height: '100%'
+						}
 					}
 				break;
 
 				case 'up':
-					style = {
-						width: '100%',
-						height: size + '%'
+					if(options.align === "up" || !options.align){
+						style = {
+							width: '100%',
+							top: 0,
+							height: size
+						}
+					} else {
+						style = {
+							width: '100%',
+							top: 0,
+							bottom: size
+						}
 					}
 				break;
 
 				case 'down':
-					style = {
-						bottom: 0,
-						width: '100%',
-						height: size + '%'
+					if(options.align === "up" || !options.align){
+						style = {
+							bottom: 0,
+							width: '100%',
+							top: size
+						}
+					} else {
+						style = {
+							bottom: 0,
+							height: size,
+							width: '100%'
+						}
 					}
 				break;
 
 				default:
 					style = {
-						width: '100%',
-						height: '100%'
+						left: 0,
+						right: 0,
+						top: 0,
+						bottom: 0
 					}
 				break;
 			}
+
+			style.position = "absolute";
 
 			if(zindex) style["z-index"] = zindex;
 
@@ -72,18 +111,9 @@ define(["jquery"], function($){
 
 		this.split = false;
 
-		this.splitV = function(x, fn){
+		this.splitH = function(y, align, fn){
 
-			var left, right;
-
-			if(typeof(x) === "number"){
-				left = x;
-				right = 100 - x;
-			} else {
-				fn = fn || x;
-			}
-
-			$(function(){
+			$(function (){
 
 				var finished = 0;
 
@@ -91,25 +121,29 @@ define(["jquery"], function($){
 					if(++finished === 2 && fn) fn(self);
 				}
 
-				if(self.split) return;
-				self.left = new UGrid({parent: self.$el, area: "left", size: left, init: finish });
-				self.right = new UGrid({parent: self.$el, area: "right", size: right, init: finish });
+				self.up = new SUGrid({
+					area: "up",
+					align: align,
+					size: y,
+					parent: self.$el,
+					init: finish
+				});
+
+				self.down = new SUGrid({
+					area: "down",
+					align: align,
+					size: y,
+					parent: self.$el,
+					init: finish
+				});
+
 				self.split = true;
 			});
 		};
 
-		this.splitH = function(x, fn){
+		this.splitV = function(x, align, fn){
 
-			var up, down;
-
-			if(typeof(x) === "number"){
-				up = x;
-				down = 100 - x;
-			} else {
-				fn = fn || x;
-			}
-
-			$(function(){
+			$(function (){
 
 				var finished = 0;
 
@@ -117,10 +151,22 @@ define(["jquery"], function($){
 					if(++finished === 2 && fn) fn(self);
 				}
 
-				if(self.split) return;
+				self.left = new SUGrid({
+					area: "left",
+					align: align,
+					size: x,
+					parent: self.$el,
+					init: finish
+				});
 
-				self.up = new UGrid({parent: self.$el, area: 'up', size: up, init: finish });
-				self.down = new UGrid({parent: self.$el, area: 'down', size: down, init: finish });
+				self.right = new SUGrid({
+					area: "right",
+					align: align,
+					size: x,
+					parent: self.$el,
+					init: finish	
+				});
+
 				self.split = true;
 			});
 		};
@@ -157,11 +203,13 @@ define(["jquery"], function($){
 				} 
 
 				else if(self.up) {
+
 					self.up.clean();
 					self.down.clean();
 				}
 
 				else if(self.provider) {
+					
 					self.provider.unsubscribe(self);
 					self.$el.html("");
 				}
@@ -173,7 +221,8 @@ define(["jquery"], function($){
 				exec();
 			
 		}
-	}
+	};
 
-	return UGrid;
+	return SUGrid;
+
 });

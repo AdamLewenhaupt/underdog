@@ -26,10 +26,20 @@ define([], function(){
 
 			if(options.triggers){
 				options.triggers.forEach(function(a){
-					view.model.on('change:' + a, function(){
-						view.render();
-						view.model.trigger("render");
-					});
+					if(typeof(a) === "string"){
+						view.model.on('change:' + a, function(){
+							view.render();
+							view.model.trigger("render");
+						});
+					} else {
+						
+						view.model.on('change:' + a.name, function (){
+							if(a.when ? a.when(view.model.get(a.name)) : true) {
+								view.render();
+								view.model.trigger("render");
+							}
+						});
+					}
 				});
 			}
 		});

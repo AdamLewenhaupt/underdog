@@ -15,11 +15,15 @@ define(["backbone", "underscore", "io"], function (Backbone, _, IO){
 
 			router = new Workspace;
 
+			for(var key in targets) {
+				if(router[targets[key]]) {
+					router.on("route:"+targets[key], router[targets[key]]);
+				}
+			}
+
 			var init = Backbone.history.fragment;
 			if(init !== ""){
-				IO.onInit(function (){
-					IO.emit("community", init);
-				});
+				IO.emit("community", init);
 				router.navigate("");
 			}	
 
@@ -34,6 +38,10 @@ define(["backbone", "underscore", "io"], function (Backbone, _, IO){
 			if(inited) fn();
 			else
 				onInit.push(fn);
+		},
+
+		navigate: function (path, trigger){
+			router.navigate(path, { trigger: trigger });
 		}
 	};
 });

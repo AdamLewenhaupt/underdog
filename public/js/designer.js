@@ -1,5 +1,6 @@
 define([
 	  "ufront/ugrid"
+	, "ufront/sugrid"
 	, "ufronts/chat"
 	, "ufronts/menu"
 	, "ufronts/hotspot"
@@ -11,6 +12,7 @@ define([
 
 	function (
 		  UGrid
+		, SUGrid
 		, Chat
 		, Menu
 		, Hotspot
@@ -21,12 +23,6 @@ define([
 		, Fame){
 
 	return function () {
-
-	var communityChat = new Chat({
-		view: {
-			className: 'community-chat'
-		}
-	});
 
 	var hotspot = new Hotspot;
 
@@ -44,10 +40,10 @@ define([
 
 	var menu = new Menu ({
 		items: {
-			community: function (){
+			Community: function (){
 			},
 
-			members: function (){
+			Members: function (){
 				background.up.clean({opacity: 0});
 			}
 		}
@@ -60,24 +56,29 @@ define([
 		// <<< Define top >>>
 		background.up.splitV(30, function (grid){
 
-			hotspot.provide(grid.right);
-			hotspot.$el.html("#514adbd63311f5b91b000001");
+			var leftGrid = new SUGrid({
+				parent: grid.left.$el
+			});
 
 			//Define Title, (Member)OTD and fame.
-			background.up.left.splitH(80, function (grid){
+			leftGrid.splitH(100, "down", function (grid){
 
-				grid.up.splitH(function (grid){
+				var up = new UGrid({
+					parent: grid.up.$el
+				})
+
+				up.splitH(function (grid){
 
 					title.provide(grid.up);
 
 					motd.provide(grid.down);
 					motd.$el.html("Member of the day");
 				});
-
+			
 				fame.provide(grid.down);
-
 			});
 
+			hotspot.provide(grid.right);
 		});
 
 		// <<< Define bottom >>>
@@ -87,6 +88,12 @@ define([
 
 			// Define social bottom.
 			background.down.right.splitV(function (grid){
+
+				var communityChat = new Chat({
+					view: {
+						className: 'community-chat'
+					}
+				});
 
 				communityChat.provide(grid.left);
 

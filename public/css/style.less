@@ -140,14 +140,15 @@ body {
 			position: relative;
 			margin: @m-margin;
 			width: 100%;
-			height: 40px;
+			height: 32px;
+			font-size: 20px;
 
 			.sender {
 				position: absolute;
 				display: block;
 				background-color: white;
 				text-align: center;
-				height: 100%;
+				height: 28px;
 				width: @sender-end - @m-offset;
 				border: 2px solid @active-color;
 			}
@@ -182,7 +183,7 @@ body {
 		left: 0px;
 		right: 0px;
 		height: 100%;
-		font-size: 100%;
+		font-size: 20px;
 		border: 0px;
 		border-bottom: 4px solid @active-color;
 		box-sizing: border-box;
@@ -212,7 +213,8 @@ body {
 	.block;
 	background-color: pink;
 	text-align: center;
-	font-size: 50px;
+	line-height: 92px;
+	font-size: 48px;
 
 	.level {
 		position: absolute;
@@ -306,6 +308,15 @@ body {
 			.signup-btn {
 				position: absolute;
 				bottom: 0px;
+				right: 0px;
+				width: 50%;
+				top: 80 * 2px;
+				.scale-font(22px);
+			}
+
+			.login-btn {
+				position: absolute;
+				bottom: 0px;
 				left: 0px;
 				width: 50%;
 				top: 80 * 2px;
@@ -350,11 +361,17 @@ body {
 
 	.identified {
 		h1 {
-			font-size: 56px;
+			.scale-font(30px);
 
 			span {
 				color: @active-color;
 			}
 		}
 	}
+}
+
+.hotspot {}
+
+.motd {
+	background-color: @foreground-color;
 }

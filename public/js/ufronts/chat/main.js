@@ -4,9 +4,12 @@ define(["ufronts/chat/input"
 		,"ufront/ufront"
 		,"ufront/ugrid"
 		,"underscore"
+		,"ufront/sugrid"
+		,"user"
+		,"io"
 		], 
 
-	function(Input, Rooms, View, UFront, UGrid, _){
+	function(Input, Rooms, View, UFront, UGrid, _, SUGrid, User, IO){
 
 	var Chat = new UFront({
 		type: "chat",
@@ -16,11 +19,7 @@ define(["ufronts/chat/input"
 
 			defaults: {
 
-				rooms: [
-					{ name: "Feedback" },
-					{ name: "Private" },
-					{ name: "Social" }
-				],
+				rooms: [],
 
 				loggs: {}
 			},
@@ -28,19 +27,22 @@ define(["ufronts/chat/input"
 			pushable: {
 				attributes: [
 					{ 
-						name: "loggs", 
-						type: Object,  
+						name: "loggs"
+					},
 
-						parse: function(attr, data){ 
-							if(!attr[data.room]) console.error("There is no such room");
-							attr[data.room] = attr[data.room].concat(data.change); 
-						},
+					{
+						name: "rooms",
 
-						"up-parse": function (data, model){
-							var m = model.ufront.childs.view.Model;
-							return { room: m.get("loggName"), change: _.last(data[m.get("loggName")]) };
+						"down-parse": function (data) {
+
+							var result = _.map(data, function (room){
+								return { name: room }
+							});
+
+							return result;
 						}
-				}],
+					}],
+
 					id: "community-chat"
 			}
 		},
@@ -62,10 +64,14 @@ define(["ufronts/chat/input"
 				//What to do when text is submited.
 				main.childs.input.Model.on("change:text", function (_model){
 					var text = _model.get("text"),
-						logg = model.get("loggs")[main.childs.view.Model.get("loggName")];
+						logg = main.childs.view.Model.get("logg");
 
 					logg.push({ sender: "Me", message: text });
-					model.trigger('change:loggs');
+					main.childs.view.Model.trigger('change:logg');
+
+					User.onAuth(function (user){
+						IO.chat(model.get("loggs")[main.childs.view.Model.get("loggName")], { sender: user, message: text });
+					});
 				});
 
 				model.get("rooms").forEach(function (room){
@@ -76,7 +82,9 @@ define(["ufronts/chat/input"
 				main.childs.view.Model.set("loggName", Object.keys(model.get("loggs"))[0]);
 
 				//Push the chat rooms to the rooms ufront.
-				model.on("change:rooms", main.childs.rooms.Model.set("rooms", model.get("rooms")));
+				model.on("change:rooms", function (){
+					main.childs.rooms.Model.set("rooms", model.get("rooms"))
+				});
 
 				//This event is triggered when a new room is selected.
 				main.childs.rooms.Model.on(".selector:change", function (room){
@@ -87,8 +95,9 @@ define(["ufronts/chat/input"
 
 				//Push the changed logg to the view ufront.
 				model.on("change:loggs", function (){
+
+					main.childs.view.Model.set("loggName", Object.keys(model.get("loggs"))[0]);
 					main.childs.view.Model.set("logg", model.get("loggs")[main.childs.view.Model.get("loggName")]);
-					main.childs.view.Model.trigger("change:logg");
 				});
 			});
 
@@ -100,11 +109,15 @@ define(["ufronts/chat/input"
 
 				}).splitV(70, function (self){
 
-					self.left.splitH(80, function (self){
+					var ioGrid = new SUGrid({
 
+						parent: self.left.$el
+					});
+
+					ioGrid.splitH(32, "down", function (self){
+						
 						main.childs.view.provide(self.up);
 						main.childs.input.provide(self.down);
-
 					});
 
 					main.childs.rooms.provide(self.right);

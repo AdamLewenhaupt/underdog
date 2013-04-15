@@ -42,7 +42,7 @@ define(["io"], function (IO){
 
 								var d = attr["down-parse"] ? attr["down-parse"](data) : data;
 								model.attributes[attr.name] = d;
-								model.trigger("change:"+attr.name, { isPush: true});
+								model.trigger("change:" + attr.name, {isPush: true });
 								break;
 						}
 							
