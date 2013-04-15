@@ -70,7 +70,16 @@ define(["io", "jquery"], function (IO, $){
 		onAuth: function (fn){
 			if(_auth) fn(_name);
 			else _onAuth.push(fn);
+		},
+
+		isAuth: function (){
+			return _auth;
+		},
+
+		name: function (){
+			return _name;
 		}
+
 	};
 
 	self.auth();
