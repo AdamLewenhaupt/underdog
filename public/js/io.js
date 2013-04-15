@@ -53,6 +53,13 @@ define([], function(){
 					fn(err, null);
 				}
 			});
+		},
+
+		chat: function (room, data){
+			this.emit("chat", {
+				room: room,
+				data: data
+			});
 		}
 	}
 

@@ -35,6 +35,7 @@ exports.init = (server) ->
     socket.on "community", (id) ->
       persistent.access("community").findById id, (err, community) ->
         unless err
+          socket.community = id
           socket.emit "fame:down-change:progress", community.progress
           socket.emit "fame:down-change:fame", community.fame
           socket.emit "title:down-change:name", community.name
@@ -45,6 +46,13 @@ exports.init = (server) ->
           socket.emit "community-chat:down-change:rooms", community.rooms
           socket.emit "community-chat:down-change:loggs", logRouter
 
+    socket.on "chat", (update) ->
+      persistent.access("chatlog").findById update.room, (err, log) ->
+        unless err
+          log.names.push update.data.sender
+          log.messages.push update.data.message
+          log.save()
+          socket.emit "community:#{socket.community}:change-chat:#{update.room}", update.data
 
 
 exports.on = (name, fn) ->

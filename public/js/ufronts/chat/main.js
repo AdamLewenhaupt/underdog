@@ -5,9 +5,11 @@ define(["ufronts/chat/input"
 		,"ufront/ugrid"
 		,"underscore"
 		,"ufront/sugrid"
+		,"user"
+		,"io"
 		], 
 
-	function(Input, Rooms, View, UFront, UGrid, _, SUGrid){
+	function(Input, Rooms, View, UFront, UGrid, _, SUGrid, User, IO){
 
 	var Chat = new UFront({
 		type: "chat",
@@ -66,6 +68,10 @@ define(["ufronts/chat/input"
 
 					logg.push({ sender: "Me", message: text });
 					main.childs.view.Model.trigger('change:logg');
+
+					User.onAuth(function (user){
+						IO.chat(model.get("loggs")[main.childs.view.Model.get("loggName")], { sender: user, message: text });
+					});
 				});
 
 				model.get("rooms").forEach(function (room){
@@ -89,6 +95,7 @@ define(["ufronts/chat/input"
 
 				//Push the changed logg to the view ufront.
 				model.on("change:loggs", function (){
+
 					main.childs.view.Model.set("loggName", Object.keys(model.get("loggs"))[0]);
 					main.childs.view.Model.set("logg", model.get("loggs")[main.childs.view.Model.get("loggName")]);
 				});
@@ -101,8 +108,6 @@ define(["ufronts/chat/input"
 					parent: view.$el
 
 				}).splitV(70, function (self){
-
-					console.log(self.left.$el);
 
 					var ioGrid = new SUGrid({
 

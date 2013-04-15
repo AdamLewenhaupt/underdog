@@ -110,12 +110,18 @@ define(["jquery"], function($){
 			}
 
 			$(function(){
+
+				var finished = 0;
+
+				function finish (){
+					if(++finished === 2 && fn) fn(self);
+				}
+
 				if(self.split) return;
 
-				self.up = new UGrid({parent: self.$el, area: 'up', size: up});
-				self.down = new UGrid({parent: self.$el, area: 'down', size: down});
+				self.up = new UGrid({parent: self.$el, area: 'up', size: up, init: finish });
+				self.down = new UGrid({parent: self.$el, area: 'down', size: down, init: finish });
 				self.split = true;
-				if(fn) fn(self);
 			});
 		};
 

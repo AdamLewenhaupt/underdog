@@ -38,8 +38,13 @@ define(["jquery", "ufront/ufront", "io"], function($, UFront, IO){
 
 					$ul.find("li").each(function (){
 						
-						var $this = $(this);
-						$this.css("height", $this.find("p").height() + 4);
+						var $this = $(this),
+							$p = $this.find("p");
+						$this.css("height", $p.height() + 4);
+
+						$(window).on("resize", function (){
+							$this.css("height", $p.height() + 4);
+						});
 					});
 
 					$ul.scrollTop($ul[0].scrollHeight);

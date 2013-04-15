@@ -1,5 +1,6 @@
 define([
 	  "ufront/ugrid"
+	, "ufront/sugrid"
 	, "ufronts/chat"
 	, "ufronts/menu"
 	, "ufronts/hotspot"
@@ -11,6 +12,7 @@ define([
 
 	function (
 		  UGrid
+		, SUGrid
 		, Chat
 		, Menu
 		, Hotspot
@@ -54,23 +56,29 @@ define([
 		// <<< Define top >>>
 		background.up.splitV(30, function (grid){
 
-			hotspot.provide(grid.right);
+			var leftGrid = new SUGrid({
+				parent: grid.left.$el
+			});
 
 			//Define Title, (Member)OTD and fame.
-			background.up.left.splitH(80, function (grid){
+			leftGrid.splitH(100, "down", function (grid){
 
-				grid.up.splitH(function (grid){
+				var up = new UGrid({
+					parent: grid.up.$el
+				})
+
+				up.splitH(function (grid){
 
 					title.provide(grid.up);
 
 					motd.provide(grid.down);
 					motd.$el.html("Member of the day");
 				});
-
+			
 				fame.provide(grid.down);
-
 			});
 
+			hotspot.provide(grid.right);
 		});
 
 		// <<< Define bottom >>>

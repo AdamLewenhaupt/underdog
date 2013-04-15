@@ -115,22 +115,29 @@ define(["jquery"], function ($){
 
 			$(function (){
 
+				var finished = 0;
+
+				function finish (){
+					if(++finished === 2 && fn) fn(self);
+				}
+
 				self.up = new SUGrid({
 					area: "up",
 					align: align,
 					size: y,
-					parent: self.$el
+					parent: self.$el,
+					init: finish
 				});
 
 				self.down = new SUGrid({
 					area: "down",
 					align: align,
 					size: y,
-					parent: self.$el
+					parent: self.$el,
+					init: finish
 				});
 
 				self.split = true;
-				if(fn) fn(self);
 			});
 		};
 
@@ -138,22 +145,29 @@ define(["jquery"], function ($){
 
 			$(function (){
 
+				var finished = 0;
+
+				function finish (){
+					if(++finished === 2 && fn) fn(self);
+				}
+
 				self.left = new SUGrid({
 					area: "left",
 					align: align,
 					size: x,
-					parent: self.$el
+					parent: self.$el,
+					init: finish
 				});
 
 				self.right = new SUGrid({
 					area: "right",
 					align: align,
 					size: x,
-					parent: self.$el	
+					parent: self.$el,
+					init: finish	
 				});
 
 				self.split = true;
-				if(fn) fn(self);
 			});
 		};
 
