@@ -1,6 +1,14 @@
 define(["jquery", "ufront/ufront", "io", "user"], function($, UFront, IO, User){
 
-	function parseLogg(logg, name){ 
+	function parseLogg(logg){ 
+
+		var name = false;
+
+		if (User.isAuth()) {
+
+			name = User.name();
+		}
+
 		var out = [];
 		for(var i = 0; i < logg.messages.length; i++)
 			out.push({
@@ -71,23 +79,20 @@ define(["jquery", "ufront/ufront", "io", "user"], function($, UFront, IO, User){
 					});
 				});
 				
-				User.onAuth(function (name){
+				model.on("change:logg", function (){
+				
+					if(typeof(model.get("logg")) === "string"){
 
-					model.on("change:logg", function (){
-					
-						if(typeof(model.get("logg")) === "string"){
+						model.set("logg-hash", model.get("logg"));
 
-							model.set("logg-hash", model.get("logg"));
-
-							IO.request("chatlog", model.get("logg"), function (err, logg){
-								if(err) {
-									console.log(err);
-									model.set("logg", []);
-								} else
-									model.set("logg", parseLogg(logg, name));
-							});
-						}
-					});
+						IO.request("chatlog", model.get("logg"), function (err, logg){
+							if(err) {
+								console.log(err);
+								model.set("logg", []);
+							} else
+								model.set("logg", parseLogg(logg));
+						});
+					}
 				});
 			});
 		}
