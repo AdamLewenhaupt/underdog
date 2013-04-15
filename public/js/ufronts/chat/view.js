@@ -1,10 +1,10 @@
-define(["jquery", "ufront/ufront", "io"], function($, UFront, IO){
+define(["jquery", "ufront/ufront", "io", "user"], function($, UFront, IO, User){
 
-	function parseLogg(logg){ 
+	function parseLogg(logg, name){ 
 		var out = [];
 		for(var i = 0; i < logg.messages.length; i++)
 			out.push({
-				sender: logg.names[i],
+				sender: name === logg.names[i] ? "Me" : logg.names[i],
 				message: logg.messages[i]
 			});
 
@@ -55,17 +55,39 @@ define(["jquery", "ufront/ufront", "io"], function($, UFront, IO){
 		extend: function (main){
 
 			main.onInit('model', function (model){
+
+				User.onAuth(function (name){
+
+					IO.chatUpdate(function (update){
+
+						console.log(update.data.sender === name);
+						if(update.data.sender === name) return;
+
+						if(update.room === model.get("logg-hash")){
+
+							model.get("logg").push(update.data);
+							model.trigger("change:logg");
+						}
+					});
+				});
 				
-				model.on("change:logg", function (){
+				User.onAuth(function (name){
+
+					model.on("change:logg", function (){
 					
-					if(typeof(model.get("logg")) === "string")
-						IO.request("chatlog", model.get("logg"), function (err, logg){
-							if(err) {
-								console.log(err);
-								model.set("logg", []);
-							} else
-								model.set("logg", parseLogg(logg));
-						});
+						if(typeof(model.get("logg")) === "string"){
+
+							model.set("logg-hash", model.get("logg"));
+
+							IO.request("chatlog", model.get("logg"), function (err, logg){
+								if(err) {
+									console.log(err);
+									model.set("logg", []);
+								} else
+									model.set("logg", parseLogg(logg, name));
+							});
+						}
+					});
 				});
 			});
 		}

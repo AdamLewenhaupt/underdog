@@ -63,6 +63,10 @@ define([], function(){
 				room: room,
 				data: data
 			});
+		},
+
+		chatUpdate: function (fn){
+			this.on("chat-update", fn);
 		}
 	}
 

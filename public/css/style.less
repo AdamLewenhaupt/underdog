@@ -7,14 +7,27 @@
 @foreground-color: white;
 @core-color: #CDCDCD;
 
-@media-max-1: 1499px;
-@media-min-1: 400px;
-@media-max-2: 1799px;
-@media-min-2: 1500px;
-@media-max-3: 1899px;
-@media-min-3: 1800px;
-@media-max-4: 2199px;
-@media-min-4: 1900px;
+@media-width-max-1: 1499px;
+@media-width-min-1: 400px;
+@media-width-max-2: 1799px;
+@media-width-min-2: 1500px;
+@media-width-max-3: 1899px;
+@media-width-min-3: 1800px;
+@media-width-max-4: 2199px;
+@media-width-min-4: 1900px;
+
+@media-height-max-1: 699px;
+@media-height-min-1: 600px;
+@media-height-max-2: 799px;
+@media-height-min-2: 700px;
+@media-height-max-3: 899px;
+@media-height-min-3: 800px;
+@media-height-max-4: 999px;
+@media-height-min-4: 900px;
+
+.mixin(@prop, @value) {
+    ignore: ~"a;@{prop}:@{value}";
+}
 
 .ui-button {
 	margin: 0px;
@@ -45,20 +58,39 @@ body {
 
 .scale-font(@size: 16px, @scaler: 0.25) {
 
-	@media (min-width: @media-min-1) and (max-width: @media-max-1) {
+	@media (min-width: @media-width-min-1) and (max-width: @media-width-max-1) {
 		font-size: @size;
 	}
 
-	@media (min-width: @media-min-2) and (max-width: @media-max-2) {
+	@media (min-width: @media-width-min-2) and (max-width: @media-width-max-2) {
 		font-size: @size * (1 + (@scaler * 1));
 	}
 
-	@media (min-width: @media-min-3) and (max-width: @media-max-3) {
+	@media (min-width: @media-width-min-3) and (max-width: @media-width-max-3) {
 		font-size: @size * (1 + (@scaler * 2));
 	}
 
-	@media (min-width: @media-min-4) and (max-width: @media-max-4) {
+	@media (min-width: @media-width-min-4) and (max-width: @media-width-max-4) {
 		font-size: @size * (1 + (@scaler * 3));
+	}
+}
+
+.scale-by-height(@var, @size: 32px, @scaler: 0.25) {
+
+	@media (min-height: @media-height-min-1) and (max-height: @media-height-max-1) {
+		.mixin(@var, @size);
+	}
+
+	@media (min-height: @media-height-min-2) and (max-height: @media-height-max-2) {
+		.mixin(@var, @size * (1 + (@scaler * 1)));
+	}
+
+	@media (min-height: @media-height-min-3) and (max-height: @media-height-max-3) {
+		.mixin(@var, @size * (1 + (@scaler * 2)));
+	}
+
+	@media (min-height: @media-height-min-4) and (max-height: @media-height-max-4) {
+		.mixin(@var, @size * (1 + (@scaler * 3)));
 	}
 }
 
@@ -293,9 +325,9 @@ body {
 			input {
 				width: 100%;
 				margin-bottom: 20px;
-				height: 56px;
-				line-height: 56px;
-				font-size: 44px;
+				.scale-by-height(height, 18px, 0.8);
+				.scale-by-height(line-height, 18px, 0.8);
+				.scale-by-height(font-size, 16px, 0.8);
 				border: 0px;
 				border-bottom: 4px solid @active-color;
 				outline-width: 0px;
@@ -310,7 +342,6 @@ body {
 				bottom: 0px;
 				right: 0px;
 				width: 50%;
-				top: 80 * 2px;
 				.scale-font(22px);
 			}
 
@@ -319,7 +350,6 @@ body {
 				bottom: 0px;
 				left: 0px;
 				width: 50%;
-				top: 80 * 2px;
 				.scale-font(22px);
 			}
 		}
