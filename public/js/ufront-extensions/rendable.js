@@ -10,6 +10,7 @@ define([], function(){
 		if(!options.template) console.error((main.type+": "||"")+"no template");
 
 		main.View.template = _.template(options.template);
+
 		main.View.render = function(){
 			var view = this;
 			
@@ -22,6 +23,7 @@ define([], function(){
 		};
 
 		main.onInit('view', function(view){
+
 			view.render();
 
 			if(options.triggers){

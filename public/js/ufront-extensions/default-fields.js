@@ -1,14 +1,16 @@
 define(["jquery"], function ($){
 
-	return function(main, options){
+	function run (view, options){
 
-		if(!options.targets) return console.error("No targets");
+		options.targets.forEach(function (target){
 
-		main.onInit('view', function (view){
+			var $target = view.$el.find(target.el);
 
-			options.targets.forEach(function (target){
+			if(target.isPassword) {
 
-				var $target = view.$el.find(target.el);
+				$target.attr("placeholder", target.default);
+
+			} else {
 
 				$target.on('focus', function (){
 					if($target.val() === target.default){ 
@@ -26,9 +28,30 @@ define(["jquery"], function ($){
 
 				$target.addClass("default-input");
 				$target.val(target.default);
+			}
 
-			});
 		});
+
+		view.ufront.reloads["default-fields"] = function (){
+			run(view, options);
+		}
+	}
+
+	return function(main, options){
+
+		if(!options.targets) return console.error("No targets");
+
+		if(main.hasAttr("rendable")) {
+
+			main.onRend(function (view){ run(view, options); });
+
+		} else {
+
+			main.onInit('view', function (view){
+
+				run(view, optinos);
+			});
+		}
 	};
 
 });

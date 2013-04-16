@@ -47,11 +47,16 @@ define(["jquery", "ufront/ufront", "io", "user"], function($, UFront, IO, User){
 					$ul.find("li").each(function (){
 						
 						var $this = $(this),
-							$p = $this.find("p");
+							$p = $this.find("p"),
+							$sender = $this.find(".sender");
+
 						$this.css("height", $p.height() + 4);
+						$sender.css("height", parseInt($this.css("font-size")) + 4);
 
 						$(window).on("resize", function (){
+
 							$this.css("height", $p.height() + 4);
+							$sender.css("height", parseInt($this.css("font-size")) + 4);
 						});
 					});
 
