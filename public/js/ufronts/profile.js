@@ -46,6 +46,12 @@ define(["ufront/ufront", "user"], function (UFront, User){
 					{
 						el: "input[name='username']",
 						default: "Username"
+					},
+
+					{
+						el: "input[name='password']",
+						default: "Password",
+						isPassword: true
 					}
 				]
 			}
@@ -81,7 +87,8 @@ define(["ufront/ufront", "user"], function (UFront, User){
 
 			main.View.signup = function (e){
 
-				var $el = this.$el;
+				var $el = this.$el,
+					view = this;
 
 				$el.find(".login").animate({
 
@@ -96,6 +103,8 @@ define(["ufront/ufront", "user"], function (UFront, User){
 								"<button class='signup-submit'>Join the fun</div>"+
 						"</form></div>"
 						);
+
+					main.reloads["default-fields"]();
 
 					$el.find("form").submit(function (){
 						
@@ -116,13 +125,14 @@ define(["ufront/ufront", "user"], function (UFront, User){
 									opacity: 0
 
 								}, 500, function (){
-									$(this).remove();				
+
+									view.render();				
 								});
 							}
 						});
 
 						return false;
-					})
+					});
 
 					$el.find(".signup-submit").button();
 				});

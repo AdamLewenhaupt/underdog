@@ -14,6 +14,7 @@ define(["backbone", "ufront-extensions", "underscore", "jquery"],
 		this.modelInits = [];
 		this.selfInits = [];
 		this.type = options.type;
+		this.reloads = {};
 
 		this.Model = {
 
