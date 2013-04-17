@@ -50,14 +50,10 @@ define(["ufronts/chat/input"
 		extend: function (main){
 
 			main.childs = {
-				view: new View,
-				rooms: new Rooms,
-				input: new Input
+				view: new View({ host: main }),
+				rooms: new Rooms({ host: main }),
+				input: new Input({ host: main })
 			};
-
-			for(var c in main.childs){
-				main.childs[c].host = main;
-			}
 
 			main.onInit('model', function (model){
 
@@ -118,6 +114,14 @@ define(["ufronts/chat/input"
 						
 						main.childs.view.provide(self.up);
 						main.childs.input.provide(self.down);
+					});
+
+					main.childs.input.View.$el.find(".msg").on('focus', function(){
+						ioGrid.resize(64, 200);
+					});
+
+					main.childs.input.View.$el.find(".msg").on('blur', function(){
+						ioGrid.resize(32, 200);
 					});
 
 					main.childs.rooms.provide(self.right);

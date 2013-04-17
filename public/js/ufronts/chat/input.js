@@ -6,7 +6,7 @@ define(["ufront/ufront"], function(UFront){
 		className: "input",
 
 		events: {
-			"keypress :input": "send"
+			"keypress .msg": "send"
 		},
 
 		extend: function(main){
@@ -26,8 +26,8 @@ define(["ufront/ufront"], function(UFront){
 				}
 			};
 
-			main.onInit('view', function(view){
-				view.$el.html("<input type='text' class='msg' />");
+			main.onInit('self', function(self){
+				self.$el.html("<textarea class='msg' placeholder= 'Enter message'></textarea>");
 			});
 		}
 
