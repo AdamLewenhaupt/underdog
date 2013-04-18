@@ -79,6 +79,7 @@ define(["backbone", "ufront-extensions", "underscore", "jquery"],
 			this.Model = new self.Model(options.model);
 			this.View = new self.View(_.extend(options.view || {}, { model: this.Model }));
 			this.$el = this.View.$el;
+			this.host = options.host;
 
 			var m = this;
 			self.selfInits.forEach(function(f){

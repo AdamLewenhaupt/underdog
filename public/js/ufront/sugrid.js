@@ -13,6 +13,7 @@ define(["jquery"], function ($){
 
 		var self = this;
 
+		self.alignment = options.align;
 		self.provider = false;
 
 		$(function(){
@@ -220,6 +221,53 @@ define(["jquery"], function ($){
 			else 
 				exec();
 			
+		};
+
+		this.resize = function (newSize, time, fn){
+
+			if(!self.split) return;
+
+			if(time) {
+
+				if(self.left) {
+					if(self.left.alignment === "left" || !self.left.alignment){
+						self.left.$el.animate({ width: newSize }, time, fn);
+						self.right.$el.animate({ left: newSize }, time, fn);
+					} else {
+						self.left.$el.animate({ right: newSize }, time, fn);
+						self.right.$el.animate({ width: newSize }, time, fn);
+					}
+				} else {
+					if(self.up.alignment === "up" || !self.up.alignment){
+						self.up.$el.animate({ height: newSize }, time, fn);
+						self.down.$el.animate({ top: newSize }, time, fn);
+					} else {
+						self.up.$el.animate({ bottom: newSize }, time, fn);
+						self.down.$el.animate({ height: newSize }, time, fn);
+					}
+				}
+
+			} else {
+
+				if(self.left) {
+					if(self.left.alignment === "left" || !self.left.alignment) {
+						self.left.$el.css("width", newSize + "px");
+						self.right.$el.css("left", newSize + "px");
+					} else {
+						self.left.$el.css("left", newSize + "px");
+						self.right.$el.css("width", newSize + "px");
+					}
+
+				} else {
+					if(self.up.alignment === "up" || !self.up.alignment) {
+						self.up.$el.css("height", newSize + "px");
+						self.down.$el.css("top", newSize + "px");
+					} else {
+						self.up.$el.css("top", newSize + "px");
+						self.down.$el.css("height", newSize + "px");
+					}
+				}
+			}
 		}
 	};
 

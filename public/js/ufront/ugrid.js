@@ -172,6 +172,35 @@ define(["jquery"], function($){
 			else 
 				exec();
 			
+		};
+
+		this.resize = function (newSize, time, fn){
+
+			if(!self.split) return;
+
+			var a = newSize,
+				b = 100 - newSize;
+
+			if(time) {
+
+				if(self.left) {
+					self.left.$el.animate({ width: a }, time, fn);
+					self.right.$el.animate({ width: b }, time, fn);
+				} else {
+					self.up.$el.animate({ height: a }, time, fn);
+					self.down.$el.animate({ height: b }, time, fn);
+				}
+
+			} else {
+
+				if(self.left) {
+					self.left.$el.css("width", a + "%");
+					self.right.$el.css("width", b + "%");
+				} else {
+					self.up.$el.css("height", a + "%");
+					self.down.$el.css("height", b + "%");
+				}
+			}
 		}
 	}
 
