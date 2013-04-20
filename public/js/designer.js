@@ -58,10 +58,7 @@ define([
 	// Define top and bottom.
 	background.splitH(60, function(){
 
-		var membersGrid = new UGrid({ noParent: true, init: function (){
-
-			membersGrid.$el.html("this is a meber test page");
-		} });
+		var membersGrid = new UGrid({ noParent: true });
 
 		var communityGrid = new UGrid({ noParent: true, init: function (){
 
