@@ -13,11 +13,14 @@ define(["jquery"], function($){
 		var self = this;
 
 		self.provider = false;
+		self.children = [];
 
 		$(function(){
 			self.$parent = parent || $('body');
 			self.$el = $("<div class='u-grid' />");
-			self.$parent.append(self.$el);
+
+			if(!options.noParent)
+				self.$parent.append(self.$el);
 
 			if(options.class) self.$el.addClass(options.class);
 
@@ -95,6 +98,9 @@ define(["jquery"], function($){
 				self.left = new UGrid({parent: self.$el, area: "left", size: left, init: finish });
 				self.right = new UGrid({parent: self.$el, area: "right", size: right, init: finish });
 				self.split = true;
+
+				self.children.push(self.left);
+				self.children.push(self.right);
 			});
 		};
 
@@ -122,22 +128,42 @@ define(["jquery"], function($){
 				self.up = new UGrid({parent: self.$el, area: 'up', size: up, init: finish });
 				self.down = new UGrid({parent: self.$el, area: 'down', size: down, init: finish });
 				self.split = true;
+
+				self.children.push(self.up);
+				self.children.push(self.down);
 			});
 		};
 
 		this.saturate = function(ufront){
 			$(function(){
 				if(self.split){
-					console.error("split grid can't contain content");
-					return;
+					return console.error("split grid can't contain content");
 				} else if(self.provider) {
-					console.error("allready has a provider");
-					return;
+					return console.error("allready has a provider");
 				} else {
 					self.$el.html(ufront.$el);
 					self.provider = ufront;
 				}
 			});
+		};
+
+		this.desaturate = function(){
+			if(self.provider) {
+				self.provider = false;
+				self.$el.html("");
+			}
+		};
+
+		this.render = function () {
+			if(self.provider) {
+				if(self.provider.View.render) {
+					self.provider.View.render();
+				}
+			} else {
+				self.children.forEach(function (ch){
+					ch.render();
+				});
+			}
 		};
 
 		this.clean = function (options){

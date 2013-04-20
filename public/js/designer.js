@@ -8,7 +8,8 @@ define([
 	, "ufronts/motd"
 	, "ufronts/title"
 	, "ufronts/profile"
-	, "ufronts/fame"], 
+	, "ufronts/fame"
+	, "ufront/staterouter"], 
 
 	function (
 		  UGrid
@@ -20,9 +21,12 @@ define([
 		, MOTD
 		, Title
 		, Profile
-		, Fame){
+		, Fame
+		, StateRouter){
 
 	return function () {
+
+	var upStateRouter;
 
 	var hotspot = new Hotspot;
 
@@ -41,10 +45,11 @@ define([
 	var menu = new Menu ({
 		items: {
 			Community: function (){
+				upStateRouter.setState("community", 400);
 			},
 
 			Members: function (){
-				background.up.clean({opacity: 0});
+				upStateRouter.setState("members", 400);
 			}
 		}
 	});
@@ -53,18 +58,38 @@ define([
 	// Define top and bottom.
 	background.splitH(60, function(){
 
+		var membersGrid = new UGrid({ noParent: true, init: function (){
+
+			membersGrid.$el.html("this is a meber test page");
+		} });
+
+		var communityGrid = new UGrid({ noParent: true, init: function (){
+
+			upStateRouter = new StateRouter(background.up, {
+				"community": communityGrid,
+				"members": membersGrid
+			}, "community");
+		} });
+
 		// <<< Define top >>>
-		background.up.splitV(30, function (grid){
+		communityGrid.splitV(30, function (grid){
 
 			var leftGrid = new SUGrid({
-				parent: grid.left.$el
+				parent: grid.left.$el,
+
+				init: function (){
+					grid.left.children.push(leftGrid);
+				}
 			});
 
 			//Define Title, (Member)OTD and fame.
 			leftGrid.splitH(100, "down", function (grid){
 
 				var up = new UGrid({
-					parent: grid.up.$el
+					parent: grid.up.$el,
+					init: function () {
+						grid.up.children.push(up);
+					}
 				})
 
 				up.splitH(function (grid){

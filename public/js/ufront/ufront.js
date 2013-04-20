@@ -99,6 +99,7 @@ define(["backbone", "ufront-extensions", "underscore", "jquery"],
 					console.error("UGrid not found");
 					return;
 				} else {
+					m.subscribers[index].desaturate();
 					m.subscribers.splice(index, 1);
 				}
 			};

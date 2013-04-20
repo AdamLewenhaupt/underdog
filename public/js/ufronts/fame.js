@@ -5,11 +5,6 @@ define(["ufront/ufront", "router"], function (UFront, Router){
 		type: "fame",
 		className: "fame",
 
-		events: {
-			"click .progress" : "inc",
-			"click .level": "inc"
-		},
-
 		attributes: {
 
 			defaults: {

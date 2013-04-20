@@ -60,9 +60,17 @@ define(["ufronts/chat/input"
 				//What to do when text is submited.
 				main.childs.input.Model.on("change:text", function (_model){
 					var text = _model.get("text"),
-						logg = main.childs.view.Model.get("logg");
+						logg = main.childs.view.Model.get("logg"),
+						last = _.last(logg);
 
-					logg.push({ sender: "Me", message: text });
+					console.log(text);
+
+					if(last.sender === "Me") {
+						last.message += "<br/>" + text;
+					} else {						
+						logg.push({ sender: "Me", message: text });
+					}
+
 					main.childs.view.Model.trigger('change:logg');
 
 					User.onAuth(function (user){
