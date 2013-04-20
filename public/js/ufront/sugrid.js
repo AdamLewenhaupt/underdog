@@ -15,10 +15,13 @@ define(["jquery"], function ($){
 
 		self.alignment = options.align;
 		self.provider = false;
+		self.children = [];
 
 		$(function(){
 			self.$parent = parent || $('body');
 			self.$el = $("<div class='su-grid' />");
+
+			if(!options.noParent)
 			self.$parent.append(self.$el);
 
 			if(options.class) self.$el.addClass(options.class);
@@ -139,6 +142,9 @@ define(["jquery"], function ($){
 				});
 
 				self.split = true;
+
+				self.children.push(self.down);
+				self.children.push(self.up);
 			});
 		};
 
@@ -169,6 +175,10 @@ define(["jquery"], function ($){
 				});
 
 				self.split = true;
+
+				self.children.push(self.left);
+				self.children.push(self.right);
+
 			});
 		};
 
@@ -185,6 +195,25 @@ define(["jquery"], function ($){
 					self.provider = ufront;
 				}
 			});
+		};
+
+		this.desaturate = function(){
+			if(self.provider) {
+				self.provider = false;
+				self.$el.html("");
+			}
+		};
+
+		this.render = function () {
+			if(self.provider) {
+				if(self.provider.View.render) {
+					self.provider.View.render();
+				}
+			} else {
+				self.children.forEach(function (ch){
+					ch.render();
+				});
+			}
 		};
 
 		this.clean = function (options){

@@ -9,12 +9,28 @@ define(["jquery", "ufront/ufront", "io", "user"], function($, UFront, IO, User){
 			name = User.name();
 		}
 
-		var out = [];
-		for(var i = 0; i < logg.messages.length; i++)
-			out.push({
-				sender: name === logg.names[i] ? "Me" : logg.names[i],
-				message: logg.messages[i]
-			});
+		var out = [], sample;
+		for(var i = 0; i < logg.messages.length; i++){
+			if(!sample){ 
+				sample = {
+					sender: logg.names[i],
+					message: logg.messages[i]
+				};
+			} else {
+				if(sample.sender === logg.names[i])
+					sample.message += "<br/>" + logg.messages[i];
+				else {
+					sample.sender = (name === sample.sender ? "Me" : sample.sender);
+					out.push(sample);
+					sample = false;
+				}
+			}
+		}
+
+		if(sample) {
+			sample.sender = (name === sample.sender ? "Me" : sample.sender);
+			out.push(sample);
+		}
 
 		return out;
 	}

@@ -20,9 +20,14 @@ define(["ufront/ufront"], function(UFront){
 				if(e.keyCode === 13){
 					var msg = $el.find(".msg"),
 						text = msg.val();
-					this.model.attributes.text = text;
-					this.model.trigger("change:text", this.model);
-					msg.val("");
+
+					if(text !== ""){
+						this.model.set("text", text);
+						msg.val("");
+					}
+					
+					return false;
+
 				}
 			};
 
