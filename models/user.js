@@ -5,7 +5,9 @@ var mongoose = require('mongoose'),
 var passHash = new PasswordHash();
 
 var userSchema = new Schema({
-	name: String,
+	name: { type: String, unique: true },
+	communities: [String],
+	joindate: Date,
 	password: String
 });
 
@@ -33,6 +35,7 @@ function pub(user){
 	return {
 		  id: 	user._id
 		, name: user.name
+		, communities: user.communities
 	}
 }
 
@@ -43,9 +46,33 @@ exports.model = User;
 exports.post = function(data, fn){
 	if(data){
 		var posting = new User(data);
+		posting.joindate = new Date();
 		posting.save(function(err){
 			if(err) fn({ error: err });
 			else fn(pub(posting));
+		});
+
+	} else {
+		fn({ error: "no data" });
+	}
+}
+
+exports.put = function(id, data, fn) {
+	if(id && data){
+
+		console.log(data);
+
+		User.findById(id, function (err, putting){
+
+			if(err) fn({ error: err });
+			else {
+				for(var x in data)
+					putting[x] = data[x];
+				putting.save(function (err){
+					if(err) fn({ error: err });
+					else fn(pub(putting));
+				});
+			}
 		});
 
 	} else {

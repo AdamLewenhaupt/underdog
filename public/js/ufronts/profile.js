@@ -1,4 +1,4 @@
-define(["ufront/ufront", "user"], function (UFront, User){
+define(["ufront/ufront", "user", "community", "jquery"], function (UFront, User, Community, $){
 
 	var Profile = new UFront({
 		type: "profile",
@@ -7,13 +7,16 @@ define(["ufront/ufront", "user"], function (UFront, User){
 		events: {
 			"keypress .login .auth": "login",
 			"click .login .signup-btn": "signup",
-			"click .login .login-btn": "login"
+			"click .login .login-btn": "login",
+			"click .control .get-member-btn": "join",
+			"click .control .del-member-btn": "leave"
 		},
 
 		attributes: {
 
 			defaults: {
-				auth: false
+				auth: false,
+				isMember: false
 			},
 
 			rendable: {
@@ -29,16 +32,23 @@ define(["ufront/ufront", "user"], function (UFront, User){
 							"</div>"+
 						"</div><% }"+
 					"else { %>"+
-						"<div class='identified' ><h1>This is the best profile ever...<br/>"+
-						"Oh and also your name is: <span><%= name %></span></h1></div>"+
+						"<div class='control'>"+
+							"<% if(!isMember){ %><div class='get-member-btn' >Join community</div><% }"+
+							"else { %><div class='del-member-btn' >Leave community</div><% } %>"+
+						"</div>"+
 					"<% } %>"
 					),
 
-				triggers: ["auth"]
+				triggers: ["auth", "isMember"]
 			},
 
 			buttons: {
-				buttons: [".signup-btn", ".login-btn"]
+				buttons: [
+					  ".signup-btn"
+					, ".login-btn"
+					, ".get-member-btn"
+					, ".del-member-btn"
+					]
 			},
 
 			"default-fields": {
@@ -62,9 +72,71 @@ define(["ufront/ufront", "user"], function (UFront, User){
 			main.onInit('model', function (model){
 
 				User.onAuth(function (name){
-					model.set({name: name, auth: true });
+					model.set({
+						name: name, 
+						auth: true
+					});
+
+					Community.onChange(function (data){
+						console.log(User.communities());
+						console.log(data.id);
+						model.set("isMember", User.communities().indexOf(data.id) !== -1);
+					});
 				});
 			});
+
+			main.View.join = function (){
+
+				var id = User.id(),
+					communities = User.communities(),
+					self = this;
+
+				communities.push(Community.id());
+
+				$.ajax({
+					type: "put",
+					url: "/persistent/user/" + id,
+					data: {
+						communities: communities
+					},
+
+					success: function (){
+						self.model.set("isMember", true);
+					}
+				});
+				
+			};
+
+			main.View.leave = function (){
+
+				var id = User.id(),
+					communities = User.communities(),
+					self = this;
+
+				var index = communities.indexOf(Community.id());
+
+				if(index !== -1) {
+
+					communities.splice(index, 1);
+
+					var data = {
+							communities: communities.length ? communities : ["-"] 
+						};
+
+					console.log(data);
+
+					$.ajax({
+						type: "put",
+						url: "/persistent/user/" + id,
+						data: data,
+
+						success: function (){
+							self.model.set("isMember", false);
+						}
+					})
+				}
+
+			};
 	
 			main.View.login = function (e){
 

@@ -63,9 +63,7 @@ define(["ufronts/chat/input"
 						logg = main.childs.view.Model.get("logg"),
 						last = _.last(logg);
 
-					console.log(text);
-
-					if(last.sender === "Me") {
+					if(last && last.sender === "Me") {
 						last.message += "<br/>" + text;
 					} else {						
 						logg.push({ sender: "Me", message: text });

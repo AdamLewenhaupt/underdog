@@ -20,7 +20,10 @@ authenticate = (req, res) ->
           unless err
             res.send
               auth: true
-              user: user.name
+              user:
+                name: user.name
+                communities: user.communities
+                id: user._id
 
 
 
@@ -38,7 +41,10 @@ authenticate = (req, res) ->
                   res.send
                     auth: true
                     assigned: login._id
-                    user: user.name
+                    user:
+                      name: user.name
+                      communities: user.communities
+                      id: user._id
 
 
   else
