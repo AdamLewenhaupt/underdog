@@ -34,6 +34,7 @@ app.get "/persistent/:type/:id?", persistent.get
 app.post "/persistent/:type", persistent.post
 app.put "/persistent/:type/:id", persistent.put
 services.auth.route app
+services.community.route app
 server = http.createServer(app)
 services.io.init server
 server.listen app.get("port"), ->

@@ -35,6 +35,7 @@ define(["ufront/ufront", "user", "community", "jquery"], function (UFront, User,
 						"<div class='control'>"+
 							"<% if(!isMember){ %><div class='get-member-btn' >Join community</div><% }"+
 							"else { %><div class='del-member-btn' >Leave community</div><% } %>"+
+							"<div class='recommend-btn'>Share community</div>"+
 						"</div>"+
 					"<% } %>"
 					),
@@ -48,6 +49,7 @@ define(["ufront/ufront", "user", "community", "jquery"], function (UFront, User,
 					, ".login-btn"
 					, ".get-member-btn"
 					, ".del-member-btn"
+					, ".recommend-btn"
 					]
 			},
 
@@ -88,17 +90,11 @@ define(["ufront/ufront", "user", "community", "jquery"], function (UFront, User,
 			main.View.join = function (){
 
 				var id = User.id(),
-					communities = User.communities(),
 					self = this;
 
-				communities.push(Community.id());
-
 				$.ajax({
-					type: "put",
-					url: "/persistent/user/" + id,
-					data: {
-						communities: communities
-					},
+					type: "post",
+					url: "/community/" + Community.id() + "/add/" + id,
 
 					success: function (){
 						self.model.set("isMember", true);
@@ -110,31 +106,16 @@ define(["ufront/ufront", "user", "community", "jquery"], function (UFront, User,
 			main.View.leave = function (){
 
 				var id = User.id(),
-					communities = User.communities(),
 					self = this;
 
-				var index = communities.indexOf(Community.id());
+				$.ajax({
+					type: "post",
+					url: "/community/"+Community.id()+"/del/"+id,
 
-				if(index !== -1) {
-
-					communities.splice(index, 1);
-
-					var data = {
-							communities: communities.length ? communities : ["-"] 
-						};
-
-					console.log(data);
-
-					$.ajax({
-						type: "put",
-						url: "/persistent/user/" + id,
-						data: data,
-
-						success: function (){
-							self.model.set("isMember", false);
-						}
-					})
-				}
+					success: function (){
+						self.model.set("isMember", false);
+					}
+				});
 
 			};
 	
