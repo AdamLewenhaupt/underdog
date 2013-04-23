@@ -58,6 +58,10 @@ requirejs([
 			}
 		});
 
+		Router.onInit(function (){
+			Router.navigate("514adbd63311f5b91b000001", true);
+		});
+
 		design();
 
 		console.log("kickin' after: " + (new Date().getTime() - start));

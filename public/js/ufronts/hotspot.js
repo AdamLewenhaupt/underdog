@@ -11,14 +11,15 @@ define([
 			className: "hotspot",
 
 			events: {
-				"click .loader": "load"
 			},
 
 			extend: function (main){
 
-				main.View.load = function (){
-					Router.navigate("514adbd63311f5b91b000001", true);
-				}
+				main.onInit('model', function (model){
+					model.on('.menu:change', function (value){
+					});
+				});
+
 			},
 
 			attributes: {
@@ -27,15 +28,18 @@ define([
 
 					targets: [],
 
-					template: "<div class='loader' >Load test community</div>"
+					template: 
+						"<div class='menu'>"+
+							"<input type='radio' name='content-type' value='feed' id='hotspot_menu_feed' checked /><label for='hotspot_menu_feed' >Feed</label>"+
+							"<input type='radio' name='content-type' value='reviews' id='hotspot_menu_reviews' /><label for='hotspot_menu_reviews' >Reviews</label>"+
+						"</div>"+
+						"<div class='content' />"
+
 				},
 
-				buttons: {
-
-					buttons: [".loader"]
-				},
-
-				"unclickable-text": {}
+				buttonsets: {
+					sets: [".menu"]
+				}
 			}
 		});
 

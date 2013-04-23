@@ -53,7 +53,6 @@ define(["io", "jquery"], function (IO, $){
 
 				success: function (data){
 					if(data.auth){
-						console.log(data);
 						IO.emit("auth", { name: data.user.name });
 
 						if(data.assigned)
