@@ -25,6 +25,13 @@ exports.init = (server) ->
     log: false
   )
   io.sockets.on "connection", (socket) ->
+
+    socket.on "server:logout", (data) ->
+      persistent.access("login").findById data, (err, login) ->
+        unless err
+          login.remove()
+          socket.emit "client:logout"
+
     socket.on "auth", (data) ->
       console.log "#{data.name} is authenticated"
 

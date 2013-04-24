@@ -4,6 +4,10 @@ The user modules handles all authentication and user information.
 
 define(["io", "jquery"], function (IO, $){
 
+	function delCookie (name) {
+	    document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+	}
+
 	function setCookie(c_name,value,exdays){
 		var exdate=new Date();
 		exdate.setDate(exdate.getDate() + exdays);
@@ -90,11 +94,23 @@ define(["io", "jquery"], function (IO, $){
 
 		id: function (){
 			return _id;
+		},
+
+		logout: function() {
+			var id = getCookie("a_user");
+			if(id){
+				IO.emit("server:logout", id);
+			}
 		}
 
 	};
 
 	self.auth();
+
+	IO.on("client:logout", function (){
+
+		delCookie("a_user");
+	});
 
 	return self;
 

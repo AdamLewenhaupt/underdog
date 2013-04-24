@@ -1,4 +1,5 @@
-define(["ufront/ufront", "user", "community", "jquery"], function (UFront, User, Community, $){
+define(["ufront/ufront", "user", "community", "jquery", "io"], 
+	function (UFront, User, Community, $, IO){
 
 	var Profile = new UFront({
 		type: "profile",
@@ -9,7 +10,8 @@ define(["ufront/ufront", "user", "community", "jquery"], function (UFront, User,
 			"click .login .signup-btn": "signup",
 			"click .login .login-btn": "login",
 			"click .control .get-member-btn": "join",
-			"click .control .del-member-btn": "leave"
+			"click .control .del-member-btn": "leave",
+			"click .control .logout-btn": "logout"
 		},
 
 		attributes: {
@@ -36,6 +38,7 @@ define(["ufront/ufront", "user", "community", "jquery"], function (UFront, User,
 							"<% if(!isMember){ %><div class='get-member-btn' >Join community</div><% }"+
 							"else { %><div class='del-member-btn' >Leave community</div><% } %>"+
 							"<div class='recommend-btn'>Share community</div>"+
+							"<div class='logout-btn'>Logout</div>"+
 						"</div>"+
 					"<% } %>"
 					),
@@ -50,6 +53,7 @@ define(["ufront/ufront", "user", "community", "jquery"], function (UFront, User,
 					, ".get-member-btn"
 					, ".del-member-btn"
 					, ".recommend-btn"
+					, ".logout-btn"
 					]
 			},
 
@@ -73,6 +77,10 @@ define(["ufront/ufront", "user", "community", "jquery"], function (UFront, User,
 
 			main.onInit('model', function (model){
 
+				IO.on("client:logout", function (){
+					model.set("auth", false);
+				})
+
 				User.onAuth(function (name){
 					model.set({
 						name: name, 
@@ -86,6 +94,10 @@ define(["ufront/ufront", "user", "community", "jquery"], function (UFront, User,
 					});
 				});
 			});
+
+			main.View.logout = function () {
+				User.logout();
+			}
 
 			main.View.join = function (){
 
