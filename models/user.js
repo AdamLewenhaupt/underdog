@@ -7,8 +7,10 @@ var passHash = new PasswordHash();
 var userSchema = new Schema({
 	name: { type: String, unique: true },
 	communities: [String],
+	admins: [String],
 	joindate: Date,
-	password: String
+	password: String,
+	pageviews: Number
 });
 
 userSchema.pre('save', function(next){
@@ -59,8 +61,6 @@ exports.post = function(data, fn){
 
 exports.put = function(id, data, fn) {
 	if(id && data){
-
-		console.log(data);
 
 		User.findById(id, function (err, putting){
 

@@ -9,7 +9,9 @@ var communitySchema = new Schema({
 	progress: Number,
 
 	rooms: [String],
-	chatlogs: [String]
+	chatlogs: [String],
+
+	feeds: [String]
 });
 
 var Community = mongoose.model('Community', communitySchema);
@@ -18,7 +20,8 @@ function pub(c){
 	return {
 		name: c.name,
 		users: c.users,
-		id: c._id
+		id: c._id,
+		feeds: c.feeds
 	}
 }
 

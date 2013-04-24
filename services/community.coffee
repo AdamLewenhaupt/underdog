@@ -1,4 +1,5 @@
 persistent = require('../persistant')
+io = require('./io')
 
 addUser = (cId, uId) ->
 	persistent.access("community").findById cId, (err, community) ->
