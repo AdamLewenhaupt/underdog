@@ -4,6 +4,10 @@ The user modules handles all authentication and user information.
 
 define(["io", "jquery"], function (IO, $){
 
+	function delCookie (name) {
+	    document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+	}
+
 	function setCookie(c_name,value,exdays){
 		var exdate=new Date();
 		exdate.setDate(exdate.getDate() + exdays);
@@ -26,11 +30,15 @@ define(["io", "jquery"], function (IO, $){
 
 	var   _name
 		, _auth = false
-		, _onAuth = [];
+		, _onAuth = []
+		, _communities
+		, _id;
 
 	var self = {
 
 		auth: function (name, pass){
+
+			console.log(name, pass);
 
 			var assigned = getCookie("a_user"),
 				data = {};
@@ -50,18 +58,24 @@ define(["io", "jquery"], function (IO, $){
 				data: data,
 
 				success: function (data){
+
 					if(data.auth){
-						IO.emit("auth", { name: data.user });
+
+						IO.emit("auth", { name: data.user.name });
 
 						if(data.assigned)
 							setCookie("a_user", data.assigned, 30);
 
 						_auth = true;
-						_name = data.user;
+						_name = data.user.name;
+						_communities = data.user.communities;
+						_id = data.user.id;
 
 						_onAuth.forEach(function (fn){
 							fn(_name);
 						});
+					} else if (data.remove) {
+						delCookie("a_user");
 					}
 				}
 			});
@@ -78,11 +92,31 @@ define(["io", "jquery"], function (IO, $){
 
 		name: function (){
 			return _name;
+		},
+
+		communities: function (){
+			return _communities;
+		},
+
+		id: function (){
+			return _id;
+		},
+
+		logout: function() {
+			var id = getCookie("a_user");
+			if(id){
+				IO.emit("server:logout", id);
+			}
 		}
 
 	};
 
 	self.auth();
+
+	IO.on("client:logout", function (){
+
+		delCookie("a_user");
+	});
 
 	return self;
 

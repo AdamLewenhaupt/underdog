@@ -35,11 +35,12 @@ requirejs([
 		, 'designer'
 		, 'router'
 		, 'user'
+		, 'community'
 	], 
 
-	function(assert, IO, $, Backbone, design, Router, User){
+	function(assert, IO, $, Backbone, design, Router, User, Community){
 
-		assert("Loaded", [IO, $, Backbone, design, Router, User]);
+		assert("Loaded", [IO, $, Backbone, design, Router, User, Community]);
 
 		IO.initialize();
 
@@ -52,8 +53,13 @@ requirejs([
 			community: function (community){
 				
 				IO.emit("community", community);
+				Community.setCommunity({ id: community });
 				this.navigate("");
 			}
+		});
+
+		Router.onInit(function (){
+			Router.navigate("514adbd63311f5b91b000001", true);
 		});
 
 		design();

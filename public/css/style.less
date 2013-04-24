@@ -182,7 +182,7 @@ body, textarea {
 				text-align: center;
 				height: 28px;
 				width: @sender-end - @m-offset;
-				border: 2px solid @active-color;
+				//border: 2px solid @active-color;
 			}
 
 			.message {
@@ -192,7 +192,7 @@ body, textarea {
 				height: 100%;
 				left: @sender-end;
 				right: @m-offset;
-				border: 2px solid @active-color;
+				//border: 2px solid @active-color;
 				background-color: white;
 
 				p {
@@ -241,6 +241,15 @@ body, textarea {
 	background-color: @background-color;
 	text-align: center;
 	font-size: 50px;
+
+	.menu {
+		width: 100%;
+
+		label {
+			.scale-font(22px);
+			width: 50%;
+		}
+	}
 }
 
 .fame {
@@ -354,6 +363,27 @@ body, textarea {
 				width: 50%;
 				.scale-font(22px);
 			}
+		}
+	}
+
+	.control {
+		.get-member-btn, 
+		.del-member-btn, 
+		.recommend-btn,
+		.logout-btn {
+
+			position: absolute;
+			.scale-font(18px);
+			width: 50%;
+		}
+
+		.recommend-btn {
+			right: 0px;
+		}
+
+		.logout-btn {
+			right: 0px;
+			bottom: 0px;
 		}
 	}
 
