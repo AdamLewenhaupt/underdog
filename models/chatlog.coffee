@@ -8,15 +8,19 @@ chatlogSchema = new Schema
   # Chat messages
   messages: [String]
 
+  timestamps: [Date]
+
 chatlogSchema.methods.appendMessage = (msg) ->
   @names.push msg.sender
   @messages.push msg.message
+  @timestamps.push new Date
 
 ChatLog = mongoose.model("ChatLog", chatlogSchema)
 
 pub = (clog) ->
   names: clog.names
   messages: clog.messages
+  timestamps: clog.timestamps
 
 exports.get = (id, fn) ->
   if id
