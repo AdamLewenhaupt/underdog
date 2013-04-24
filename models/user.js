@@ -5,12 +5,12 @@ var mongoose = require('mongoose'),
 var passHash = new PasswordHash();
 
 var userSchema = new Schema({
-	name: { type: String, unique: true },
+	name: { type: String, unique: true, trim: true, lowercase: true },
 	communities: [String],
-	admins: [String],
 	joindate: Date,
 	password: String,
-	pageviews: Number
+	logins: { type: Number, default: 0 },
+	lastlogin: { type: Date, default: Date.now }
 });
 
 userSchema.pre('save', function(next){

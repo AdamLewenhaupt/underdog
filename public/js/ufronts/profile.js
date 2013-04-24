@@ -88,10 +88,11 @@ define(["ufront/ufront", "user", "community", "jquery", "io"],
 					});
 
 					Community.onChange(function (data){
-						console.log(User.communities());
-						console.log(data.id);
 						model.set("isMember", User.communities().indexOf(data.id) !== -1);
 					});
+
+					if(Community.id())
+						model.set("isMember", User.communities().indexOf(Community.id()) !== -1);
 				});
 			});
 

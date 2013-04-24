@@ -38,6 +38,8 @@ define(["io", "jquery"], function (IO, $){
 
 		auth: function (name, pass){
 
+			console.log(name, pass);
+
 			var assigned = getCookie("a_user"),
 				data = {};
 
@@ -56,7 +58,9 @@ define(["io", "jquery"], function (IO, $){
 				data: data,
 
 				success: function (data){
+
 					if(data.auth){
+
 						IO.emit("auth", { name: data.user.name });
 
 						if(data.assigned)
@@ -70,6 +74,8 @@ define(["io", "jquery"], function (IO, $){
 						_onAuth.forEach(function (fn){
 							fn(_name);
 						});
+					} else if (data.remove) {
+						delCookie("a_user");
 					}
 				}
 			});

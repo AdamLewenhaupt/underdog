@@ -10,6 +10,7 @@ define([], function (){
 		},
 
 		setCommunity: function (data){
+
 			_id = data.id;
 			_onChange.forEach(function (fn){
 

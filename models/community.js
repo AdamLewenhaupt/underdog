@@ -3,6 +3,7 @@ var mongoose = require('mongoose'),
 
 var communitySchema = new Schema({
 	users: [String],
+	admins: [String],
 	name: String,
 
 	fame: Number,
