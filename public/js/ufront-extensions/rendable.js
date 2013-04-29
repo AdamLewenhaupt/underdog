@@ -15,11 +15,12 @@ define([], function(){
 			var view = this;
 			
 			this.$el.html(this.template(this.model.attributes));
-			if(options.onRend) options.onRend(this);
 
 			main._onRend.forEach(function (fn){
 				fn(view);
 			});
+
+			if(options.onRend) options.onRend(this);
 		};
 
 		main.onInit('view', function(view){

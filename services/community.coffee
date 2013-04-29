@@ -29,6 +29,20 @@ removeUser = (cId, uId) ->
 						community.save()
 
 
+isAdmin = (cId, uId, fn) ->
+	persistent.access("community").findById cId, (err, community) ->
+		unless err
+			persistent.access("user").findById uId, (err, user) ->
+				unless err
+					if user.id in community.admins
+						fn true
+					else
+						fn false
+				else
+					fn false
+		else
+			fn false
+
 exports.route = (app) ->
 	app.post "/community/:cid/add/:uid", (req, res) ->
 		addUser req.params.cid, req.params.uid
@@ -37,3 +51,7 @@ exports.route = (app) ->
 	app.post "/community/:cid/del/:uid", (req, res) ->
 		removeUser req.params.cid, req.params.uid
 		res.send "success"
+
+	app.get "/community/:cid/isadmin/:uid", (req, res) ->
+		isAdmin req.params.cid req.params.uid (isAdmin) ->
+			res.send(isAdmin)

@@ -32,9 +32,6 @@ exports.init = (server) ->
           login.remove()
           socket.emit "client:logout"
 
-    socket.on "auth", (data) ->
-      console.log "#{data.name} is authenticated"
-
     socket.on "pushable", (id) ->
       console.log "New pushable: #{id}"
       pushable[id] socket if pushable[id]

@@ -1,5 +1,13 @@
-define(["ufront/ufront", "user", "community", "jquery", "io"], 
-	function (UFront, User, Community, $, IO){
+define([
+		"ufront/ufront",
+		"user",
+		"community",
+		"jquery",
+		"io",
+		"ufront-router"
+	], 
+
+	function (UFront, User, Community, $, IO, UFrontRouter){
 
 	var Profile = new UFront({
 		type: "profile",
@@ -11,7 +19,8 @@ define(["ufront/ufront", "user", "community", "jquery", "io"],
 			"click .login .login-btn": "login",
 			"click .control .get-member-btn": "join",
 			"click .control .del-member-btn": "leave",
-			"click .control .logout-btn": "logout"
+			"click .control .logout-btn": "logout",
+			"click .control .create-btn": "createFeed"
 		},
 
 		attributes: {
@@ -39,6 +48,7 @@ define(["ufront/ufront", "user", "community", "jquery", "io"],
 							"else { %><div class='del-member-btn' >Leave community</div><% } %>"+
 							"<div class='recommend-btn'>Share community</div>"+
 							"<div class='logout-btn'>Logout</div>"+
+							"<div class='create-btn'>Create Feed</div>"+
 						"</div>"+
 					"<% } %>"
 					),
@@ -54,6 +64,7 @@ define(["ufront/ufront", "user", "community", "jquery", "io"],
 					, ".del-member-btn"
 					, ".recommend-btn"
 					, ".logout-btn"
+					, ".create-btn"
 					]
 			},
 
@@ -95,6 +106,15 @@ define(["ufront/ufront", "user", "community", "jquery", "io"],
 						model.set("isMember", User.communities().indexOf(Community.id()) !== -1);
 				});
 			});
+
+			main.View.createFeed = function (){
+
+				if(UFrontRouter.has("hotspot")) {
+					var hot = UFrontRouter.get("hotspot");
+					hot.createFeed();
+				}
+
+			}
 
 			main.View.logout = function () {
 				User.logout();

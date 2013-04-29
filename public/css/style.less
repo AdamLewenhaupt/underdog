@@ -211,6 +211,7 @@ body, textarea {
 	background-color: white;
 
 	.msg {
+		width: 100%;
 		resize: none;
 		position: absolute;
 		margin: 0px;
@@ -243,11 +244,78 @@ body, textarea {
 	font-size: 50px;
 
 	.menu {
+		position: static;
 		width: 100%;
 
 		label {
 			.scale-font(22px);
 			width: 50%;
+		}
+	}
+
+	.content {
+		position: relative;
+
+		.choose-embed {
+
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			bottom: 0px;
+			width: 50%;
+
+			.icont {
+				margin: 0px;
+				padding: 0px;
+				position: absolute;
+				top: 0px;
+				bottom: 40px;
+				left: 0px;
+				right: 0px;
+
+				iframe {
+					position: relative;
+					width: 100%;
+					height: 100%;
+				}
+			}
+
+			form {
+
+				position: absolute;
+				bottom: 0px;
+				height: 40px;
+				width: 100%;
+
+				input {
+					left: 0px;
+					position: absolute;
+					width: 80%;
+					margin: 0px;
+					height: 100%;
+					font-size: 20px;
+					border: 0px;
+					border-bottom: 4px solid @active-color;
+					box-sizing: border-box;
+				}
+
+				input:focus {
+					outline-width: 0px;
+				}
+
+				button {
+					position: absolute;
+					width: 20%;
+					height: 100%;
+					right: 0px;
+					font-size: 14px;
+				}
+			}
+
+		}
+
+		.write-description {
+
 		}
 	}
 }
@@ -370,7 +438,8 @@ body, textarea {
 		.get-member-btn, 
 		.del-member-btn, 
 		.recommend-btn,
-		.logout-btn {
+		.logout-btn,
+		.create-btn {
 
 			position: absolute;
 			.scale-font(18px);
@@ -383,6 +452,10 @@ body, textarea {
 
 		.logout-btn {
 			right: 0px;
+			bottom: 0px;
+		}
+
+		.create-btn {
 			bottom: 0px;
 		}
 	}
@@ -431,8 +504,6 @@ body, textarea {
 		}
 	}
 }
-
-.hotspot {}
 
 .motd {
 	background-color: @foreground-color;
