@@ -9,7 +9,8 @@ define([
 	, "ufronts/title"
 	, "ufronts/profile"
 	, "ufronts/fame"
-	, "ufront/staterouter"], 
+	, "ufront/staterouter"
+	, "ufront-router"], 
 
 	function (
 		  UGrid
@@ -22,7 +23,8 @@ define([
 		, Title
 		, Profile
 		, Fame
-		, StateRouter){
+		, StateRouter
+		, UFrontRouter){
 
 	return function () {
 
@@ -53,6 +55,8 @@ define([
 			}
 		}
 	});
+
+	UFrontRouter.add("hotspot", hotspot);
 
 	// Setup grid structure.
 	// Define top and bottom.

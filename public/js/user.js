@@ -38,8 +38,6 @@ define(["io", "jquery"], function (IO, $){
 
 		auth: function (name, pass){
 
-			console.log(name, pass);
-
 			var assigned = getCookie("a_user"),
 				data = {};
 
