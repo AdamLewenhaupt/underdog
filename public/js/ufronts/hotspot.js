@@ -84,6 +84,7 @@ define([
 									"</form>"+
 								"</div>"+
 								"<div class='write-description'>"+
+									"<input type='text' name='title' />"+
 									"<textarea></textarea>"+
 								"</div>"+
 							"<% } else { %>"+
@@ -113,6 +114,16 @@ define([
 						{
 							el: "input[name='url']",
 							default: "Embed url"
+						},
+
+						{
+							el: "textarea",
+							default: "Your awesome text"
+						},
+
+						{
+							el: "input[name='title']",
+							default: "The title goes here"
 						}
 					]
 				},
