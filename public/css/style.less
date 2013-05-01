@@ -29,6 +29,12 @@
     ignore: ~"a;@{prop}:@{value}";
 }
 
+.calc-minus(@prop, @a, @b) {
+    .mixin(@prop, -moz-calc(~"@{a} - @{b}"));
+    .mixin(@prop, -webkit-calc(~"@{a} - @{b}")); 
+    .mixin(@prop, calc(~"@{a} - @{b}"));
+}​
+
 .ui-button {
 	margin: 0px;
 }
@@ -41,10 +47,6 @@ body, textarea {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-#test {
-	display: inline-block;
-}
-
 .u-grid {
 	overflow: hidden;
 	position: absolute;	
@@ -52,6 +54,13 @@ body, textarea {
 
 .u-grid.background {
 	background-color: @core-color;
+}
+
+.neat-input {
+	margin: 0px;
+	border: 0px;
+	border-bottom: 4px solid @active-color;
+	box-sizing: border-box;
 }
 
 @offset: 5px;
@@ -214,14 +223,11 @@ body, textarea {
 		width: 100%;
 		resize: none;
 		position: absolute;
-		margin: 0px;
 		left: 0px;
 		right: 0px;
 		height: 100%;
 		font-size: 20px;
-		border: 0px;
-		border-bottom: 4px solid @active-color;
-		box-sizing: border-box;
+		.neat-input;
 	}
 
 	.msg:focus {
@@ -255,23 +261,21 @@ body, textarea {
 
 	.content {
 		position: relative;
+		text-align: left;
 
 		.choose-embed {
-
-			position: absolute;
-			left: 0px;
-			top: 0px;
-			bottom: 0px;
+			display: inline-block;
+			padding: 10px;
+			box-sizing: border-box;
+			position: relative;
+			height: 100%;
 			width: 50%;
 
 			.icont {
-				margin: 0px;
-				padding: 0px;
-				position: absolute;
+				box-sizing: border-box;
+				width: 100%;
+				.calc-minus(height, 100%, 40px);
 				top: 0px;
-				bottom: 40px;
-				left: 0px;
-				right: 0px;
 
 				iframe {
 					position: relative;
@@ -281,22 +285,20 @@ body, textarea {
 			}
 
 			form {
-
-				position: absolute;
-				bottom: 0px;
+				top: 0px;
+				position: relative;
 				height: 40px;
 				width: 100%;
 
 				input {
+					position: relative;
+					top: -20px;
 					left: 0px;
-					position: absolute;
 					width: 80%;
-					margin: 0px;
 					height: 100%;
 					font-size: 20px;
-					border: 0px;
-					border-bottom: 4px solid @active-color;
-					box-sizing: border-box;
+					.neat-input;
+
 				}
 
 				input:focus {
@@ -304,10 +306,10 @@ body, textarea {
 				}
 
 				button {
-					position: absolute;
+					position: relative;
+					top: -20px;
 					width: 20%;
 					height: 100%;
-					right: 0px;
 					font-size: 14px;
 				}
 			}
@@ -316,6 +318,27 @@ body, textarea {
 
 		.write-description {
 
+			top: -10px;
+			padding: 10px;
+			box-sizing: border-box;
+			display: inline-block;
+
+			position: relative;
+			height: 100%;
+			right: 0px;
+			width: 50%;
+
+			textarea {
+				width: 100%;
+				height: 100%;
+				font-size: 20px;
+				resize: none;
+				.neat-input;
+			}
+
+			textarea:focus {
+				outline-width: 0px;
+			}
 		}
 	}
 }

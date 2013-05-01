@@ -83,7 +83,9 @@ define([
 										"<button class='load-embed-btn'>Load</button>"+
 									"</form>"+
 								"</div>"+
-								"<div class='write-description' />"+
+								"<div class='write-description'>"+
+									"<textarea></textarea>"+
+								"</div>"+
 							"<% } else { %>"+
 							"<% } %>"+
 						"</div>",
