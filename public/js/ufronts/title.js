@@ -21,7 +21,6 @@ define([
 				rendable: {
 					template: 
 					"<h1><%= name %></h1>"+
-					"<h2>Member of the day</h2>"+
 					"<div class='fame-container'><div class='progress' /><div class='level'>Fame <%= fame %></div></div>",
 
 					triggers: [
