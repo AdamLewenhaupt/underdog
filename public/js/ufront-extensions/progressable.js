@@ -3,6 +3,7 @@ define(["jquery-ui"], function ($ui){
 	function progress(view, options){
 		var $el = view.$el;
 
+		
 		options.targets.forEach(function (progress){
 
 			$el.find(progress.el).progressbar({

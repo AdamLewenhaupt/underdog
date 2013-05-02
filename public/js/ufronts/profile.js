@@ -29,7 +29,18 @@ define([
 			defaults: {
 				auth: false,
 				isMember: false,
-				editing: false
+				editing: false,
+				fame: 1,
+				progress: 0
+			},
+
+			pushable: {
+				id: "fame",
+
+				attributes: [
+					{ name: "fame" },
+					{ name: "progress" }
+				]
 			},
 
 			rendable: {
@@ -49,6 +60,7 @@ define([
 							"<% if(!isMember){ %><div class='get-member-btn' >Join community</div><% }"+
 							"else { %><div class='del-member-btn' >Leave community</div><% } %>"+
 							"<div class='recommend-btn'>Share community</div>"+
+							"<div class='fame-container'><div class='progress' /><div class='level'>Fame</div></div>"+
 							"<div class='logout-btn'>Logout</div>"+
 							"<% if(!editing){ %><div class='create-btn'>Create Feed</div><% }"+
 							"else { %><div class='save-btn'>Save Feed</div><% } %>"+
@@ -56,7 +68,16 @@ define([
 					"<% } %>"
 					),
 
-				triggers: ["auth", "isMember", "editing"]
+				triggers: ["auth", "isMember", "editing", "fame"]
+			},
+
+			progressable: {
+
+				targets: [{
+					el: ".progress",
+					progress: 0,
+					trigger: "progress"
+				}]
 			},
 
 			buttons: {
