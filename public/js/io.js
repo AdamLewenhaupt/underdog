@@ -11,11 +11,11 @@ define([], function(){
 
 	return {
 		initialize: function() {
-			/*socket = io.connect('http://beviewed.herokuapp.com/', {
+			socket = io.connect('http://beviewed.herokuapp.com/', {
 				transports: ["xhr-polling"]
-			});*/
+			});
 
-			socket = io.connect("http://localhost:3000/");
+			//socket = io.connect("http://localhost:3000/");
 
 			inited = true;
 			init.forEach(function(fn){
