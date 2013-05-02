@@ -1,10 +1,10 @@
 mongoose = require("mongoose")
 models = require("./models").models
+
 exports.connect = ->
   console.log "Connecting to database."
   mongoose.connect "mongodb://main:access@linus.mongohq.com:10026/underdog-main", (err) ->
     console.log err  if err
-
 
 exports.get = get = (req, res) ->
   type = req.params.type

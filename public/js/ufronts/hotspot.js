@@ -1,16 +1,18 @@
 define([
 		"ufront/ufront",
 		"router",
-		"jquery"
+		"jquery",
+		"io",
+		"community",
+		"underscore"
 	], 
 
-	function (UFront, Router, $){
+	function (UFront, Router, $, IO, Community, _){
 
 		var Hotspot = new UFront({
-			type: "hotspot",
-			
-			className: "hotspot",
 
+			type: "hotspot",
+			className: "hotspot",
 			events: {
 				"submit .content .choose-embed form": "loadEmbed"
 			},
@@ -27,7 +29,6 @@ define([
 					if(url !== ""){
 
 						var embed = url.replace(/(.+)\/watch\?v=(.+)/gi, "$1/embed/$2");
-						console.log(embed);
 
 						$el.find(".content .choose-embed .icont iframe")
 							.attr("src", embed);
@@ -37,11 +38,68 @@ define([
 				};
 
 				main.onInit('model', function (model){
-					model.on('.menu:change', function (value){
+
+					model.on('.menu:change', function (val){
+						console.log(val);
+						if(val === "feed")
+							model.set("feeding", true);
+						else
+							model.set("feeding", false);
+					});
+					
+					model.on('change:feeds', function (){
+						if(model.get("feeds").length > 0)
+							model.set("feedIndex", 0);
+					});
+
+					model.on('change:feedIndex', function (){
+
+						var current = model.get("feeds")[model.get("feedIndex")];
+
+						if(typeof current === "string") {
+							$.ajax({
+								type: "get",
+								url: "/persistent/feed/" + current,
+								success: function (data){
+									if(!data.err){
+										model.get("feeds")[model.get("feedIndex")] = data;
+										model.set("feed", data);
+									}
+								}
+							});
+						} else {
+							model.set("feed", current);
+						}
+
 					});
 				});
 
 				main.onInit('self', function (self){
+
+					self.saveFeed = function (fn){
+
+						var cid = Community.id();
+
+						if(cid) {
+							var $el = self.View.$el,
+								data = {
+									title: $el.find("input[name='title']").val(),
+									content: $el.find("textarea").val(),
+									embed: $el.find("input[name='url']").val(),
+									cid: cid
+								};
+
+							IO.emit("community:save-feed", data);
+							IO.on("community:save-feed-res", function (success){
+								if(success)
+									self.Model.set("editing", false);
+								fn(success);
+							});
+
+						} else {
+							fn(false);
+						}
+					};
 
 					self.createFeed = function (){
 						self.Model.set("editing", true);
@@ -62,17 +120,32 @@ define([
 
 				defaults: {
 
-					editing: false
+					editing: false,
+					feeds: [],
+					feedIndex: -1,
+					feed: false,
+					feeding: true // Haha
+				},
+
+				pushable: {
+
+					id: "hotspot",
+
+					attributes: [
+						{ 
+							name: "feeds"
+						}
+					]
 				},
 
 				rendable: {
 
-					triggers: ["editing"],
+					triggers: ["editing", "feed", "feeding"],
 
 					template: 
 						"<div class='menu'>"+
-							"<input type='radio' name='content-type' value='feed' id='hotspot_menu_feed' checked /><label for='hotspot_menu_feed' >Feed</label>"+
-							"<input type='radio' name='content-type' value='reviews' id='hotspot_menu_reviews' /><label for='hotspot_menu_reviews' >Reviews</label>"+
+							"<input type='radio' name='content-type' value='feed' id='hotspot_menu_feed' <% if(feeding){ %>checked<% } %>/><label for='hotspot_menu_feed' >Feed</label>"+
+							"<input type='radio' name='content-type' value='reviews' id='hotspot_menu_reviews' <% if(! feeding){ %>checked<% } %> /><label for='hotspot_menu_reviews' >Reviews</label>"+
 						"</div>"+
 						"<div class='content'>"+
 							"<% if(editing) { %>"+
@@ -88,6 +161,15 @@ define([
 									"<textarea></textarea>"+
 								"</div>"+
 							"<% } else { %>"+
+								"<% if (feeding) { %>"+
+									"<div class='embed'>"+
+										"<iframe src='<%= feed.embed %>' />"+
+									"</div>"+
+									"<div class='description'>"+
+										"<h1><%= feed.title %></h1>"+
+										"<p><%= feed.content %></p>"+
+									"</div>"+
+								"<% }%>"+
 							"<% } %>"+
 						"</div>",
 

@@ -20,14 +20,16 @@ define([
 			"click .control .get-member-btn": "join",
 			"click .control .del-member-btn": "leave",
 			"click .control .logout-btn": "logout",
-			"click .control .create-btn": "createFeed"
+			"click .control .create-btn": "createFeed",
+			"click .control .save-btn": "saveFeed"
 		},
 
 		attributes: {
 
 			defaults: {
 				auth: false,
-				isMember: false
+				isMember: false,
+				editing: false
 			},
 
 			rendable: {
@@ -48,12 +50,13 @@ define([
 							"else { %><div class='del-member-btn' >Leave community</div><% } %>"+
 							"<div class='recommend-btn'>Share community</div>"+
 							"<div class='logout-btn'>Logout</div>"+
-							"<div class='create-btn'>Create Feed</div>"+
+							"<% if(!editing){ %><div class='create-btn'>Create Feed</div><% }"+
+							"else { %><div class='save-btn'>Save Feed</div><% } %>"+
 						"</div>"+
 					"<% } %>"
 					),
 
-				triggers: ["auth", "isMember"]
+				triggers: ["auth", "isMember", "editing"]
 			},
 
 			buttons: {
@@ -65,6 +68,7 @@ define([
 					, ".recommend-btn"
 					, ".logout-btn"
 					, ".create-btn"
+					, ".save-btn"
 					]
 			},
 
@@ -112,8 +116,23 @@ define([
 				if(UFrontRouter.has("hotspot")) {
 					var hot = UFrontRouter.get("hotspot");
 					hot.createFeed();
+					this.model.set("editing", true);
 				}
 
+			}
+
+			main.View.saveFeed = function (){
+
+				var self = this;
+
+				if(UFrontRouter.has("hotspot")) {
+					var hot = UFrontRouter.get("hotspot");
+					hot.saveFeed(function (succ){
+
+						if(succ)
+							self.model.set("editing", false);
+					});
+				}
 			}
 
 			main.View.logout = function () {

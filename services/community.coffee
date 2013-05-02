@@ -1,6 +1,22 @@
 persistent = require('../persistant')
 io = require('./io')
 
+io.onSocket (socket) ->
+
+	socket.on "community:save-feed", (data) ->
+		Feed = persistent.access("feed")
+		newFeed = new Feed(data)
+
+		newFeed.save (err) ->
+			unless err
+				socket.emit "community:save-feed-res", true
+				persistent.access("community").findById data.cid, (err, community) ->
+					unless err
+						community.feeds.unshift newFeed._id
+						community.save()
+			else
+				socket.emit "community:save-feed-res", false
+
 addUser = (cId, uId) ->
 	persistent.access("community").findById cId, (err, community) ->
 		unless err

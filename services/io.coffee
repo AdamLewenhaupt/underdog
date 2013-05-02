@@ -4,6 +4,7 @@
 persistent = require('../persistant')
 _io = require("socket.io")
 io = false
+onSocket = []
 
 # Pre-programmed push-behavior.
 pushable =
@@ -20,11 +21,20 @@ pushable =
     socket.on "#{name}:up-change:loggs", (data) ->
       console.log(data)
 
+exports.onSocket = (fn) ->
+  if io
+    io.sockets.on "connection", fn
+  else
+    onSocket.push fn
+
 exports.init = (server) ->
   io = _io.listen(server,
     log: false
   )
   io.sockets.on "connection", (socket) ->
+
+    onSocket.forEach (fn) ->
+      fn(socket)
 
     socket.on "server:logout", (data) ->
       persistent.access("login").findById data, (err, login) ->
@@ -52,6 +62,7 @@ exports.init = (server) ->
             logRouter[community.rooms[i]] = community.chatlogs[i]
           socket.emit "community-chat:down-change:rooms", community.rooms
           socket.emit "community-chat:down-change:loggs", logRouter
+          socket.emit "hotspot:down-change:feeds", community.feeds
 
     socket.on "chat", (update) ->
       persistent.access("chatlog").findById update.room, (err, log) ->
