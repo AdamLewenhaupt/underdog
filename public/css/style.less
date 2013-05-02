@@ -286,8 +286,8 @@ body, textarea {
 			background-color: @foreground-color;
 
 			.calc(height, "100% - 20px");
-			.calc(width, "50% - 15px");
-			right: 10px;
+			.calc(width, "50% - 10px");
+			right: 5px;
 			top: 10px;
 
 			text-align: center;
@@ -397,41 +397,6 @@ body, textarea {
 	}
 }
 
-.fame {
-	.block;
-	background-color: pink;
-	text-align: center;
-	line-height: 92px;
-	.scale-font(22px);
-
-	.level {
-		position: absolute;
-		text-align: center;
-		width: 100%;
-	}
-
-	.progress {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-
-		.ui-progressbar-value {
-
-		border: 1px solid white;
-
-		background: #57d6cd;
-		background: -moz-linear-gradient(left,  #57d6cd 0%, #5460ce 100%);
-		background: -webkit-gradient(linear, left top, right top, color-stop(0%,#57d6cd), color-stop(100%,#5460ce));
-		background: -webkit-linear-gradient(left,  #57d6cd 0%,#5460ce 100%);
-		background: -o-linear-gradient(left,  #57d6cd 0%,#5460ce 100%);
-		background: -ms-linear-gradient(left,  #57d6cd 0%,#5460ce 100%);
-		background: linear-gradient(to right,  #57d6cd 0%,#5460ce 100%);
-		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#57d6cd', endColorstr='#5460ce',GradientType=1 );
-
-		}
-	}
-}
-
 .motd {
 	.block;
 	background-color: #FFFF99;
@@ -518,10 +483,16 @@ body, textarea {
 		.logout-btn,
 		.create-btn,
 		.save-btn {
-
-			position: absolute;
 			.scale-font(18px);
-			width: 50%;
+			width: 49%;
+			position: relative;
+			display: inline-block;
+		}
+
+		.logout-btn,
+		.create-btn,
+		.save-btn {
+			position: absolute;
 		}
 
 		.recommend-btn {
@@ -535,6 +506,46 @@ body, textarea {
 
 		.create-btn, .save-btn {
 			bottom: 0px;
+			left: 0px;
+		}
+
+		.fame-container {
+
+			position: relative;
+			display: inline-block;
+			.scale-font(20px);
+			width: 100%;
+			height: 2em;
+
+			.level {
+				line-height: 2em;
+				position: absolute;
+				text-align: center;
+				width: 100%;
+				height: 100%;
+			}
+
+			.progress {
+
+				position: absolute;
+				width: 100%;
+				height: 100%;
+
+				.ui-progressbar-value {
+
+					border: 1px solid white;
+
+					background: #57d6cd;
+					background: -moz-linear-gradient(left,  #57d6cd 0%, #5460ce 100%);
+					background: -webkit-gradient(linear, left top, right top, color-stop(0%,#57d6cd), color-stop(100%,#5460ce));
+					background: -webkit-linear-gradient(left,  #57d6cd 0%,#5460ce 100%);
+					background: -o-linear-gradient(left,  #57d6cd 0%,#5460ce 100%);
+					background: -ms-linear-gradient(left,  #57d6cd 0%,#5460ce 100%);
+					background: linear-gradient(to right,  #57d6cd 0%,#5460ce 100%);
+					filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#57d6cd', endColorstr='#5460ce',GradientType=1 );
+
+				}
+			}
 		}
 	}
 

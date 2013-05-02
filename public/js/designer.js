@@ -75,33 +75,13 @@ define([
 		// <<< Define top >>>
 		communityGrid.splitV(30, function (grid){
 
-			var leftGrid = new SUGrid({
-				parent: grid.left.$el,
-
-				init: function (){
-					grid.left.children.push(leftGrid);
-				}
-			});
-
 			//Define Title, (Member)OTD and fame.
-			leftGrid.splitH(100, "down", function (grid){
+			grid.left.splitH(50, function (grid){
 
-				var up = new UGrid({
-					parent: grid.up.$el,
-					init: function () {
-						grid.up.children.push(up);
-					}
-				})
+				title.provide(grid.up);
 
-				up.splitH(function (grid){
-
-					title.provide(grid.up);
-
-					motd.provide(grid.down);
-					motd.$el.html("Member of the day");
-				});
-			
-				fame.provide(grid.down);
+				motd.provide(grid.down);
+				motd.$el.html("Member of the day");
 			});
 
 			hotspot.provide(grid.right);
