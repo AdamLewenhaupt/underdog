@@ -76,12 +76,12 @@ define([
 		communityGrid.splitV(30, function (grid){
 
 			//Define Title, (Member)OTD and fame.
-			grid.left.splitH(50, function (grid){
+			grid.left.splitH(16, function (grid){
 
-				title.provide(grid.up);
+				title.provide(grid.down);
 
-				motd.provide(grid.down);
-				motd.$el.html("Member of the day");
+				motd.provide(grid.up);
+				motd.$el.html("<img src='/images/temp-logo.png' />");
 			});
 
 			hotspot.provide(grid.right);

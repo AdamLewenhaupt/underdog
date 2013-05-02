@@ -38,14 +38,6 @@ define([
 				};
 
 				main.onInit('model', function (model){
-
-					model.on('.menu:change', function (val){
-						console.log(val);
-						if(val === "feed")
-							model.set("feeding", true);
-						else
-							model.set("feeding", false);
-					});
 					
 					model.on('change:feeds', function (){
 						if(model.get("feeds").length > 0)
@@ -75,6 +67,20 @@ define([
 				});
 
 				main.onInit('self', function (self){
+
+					self.Model.on('.menu:change', function (val){
+						self.View.$el.find(".content").animate({
+							opacity: 0
+						}, 200, function (){
+							if(val === "feed")
+								self.Model.set("feeding", true);
+							else
+								self.Model.set("feeding", false);
+							this.animate({
+								opacity: 1
+							}, 200);
+						});
+					});
 
 					self.saveFeed = function (fn){
 

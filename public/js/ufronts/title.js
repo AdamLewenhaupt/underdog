@@ -14,15 +14,20 @@ define([
 
 				defaults: {
 					name: "Unknown community",
-					users: 0
+					fame: 1,
+					progress: 0
 				},
 
 				rendable: {
-					template: "<h1><%= name %></h1><br/><h2>Members: <%= users %></h2>",
+					template: 
+					"<h1><%= name %></h1>"+
+					"<h2>Member of the day</h2>"+
+					"<div class='fame-container'><div class='progress' /><div class='level'>Fame <%= fame %></div></div>",
 
 					triggers: [
 						"name",
-						"users"
+						"fame",
+						"progress"
 					]				
 				},
 
@@ -31,8 +36,18 @@ define([
 
 					attributes: [
 						{ name: "name" }, 
-						{ name: "users" }
+						{ name: "fame" },
+						{ name: "progress" }
 					]
+				},
+
+				progressable: {
+
+					targets: [{
+						el: ".progress",
+						progress: 0,
+						trigger: "progress"
+					}]
 				}
 			}
 		});

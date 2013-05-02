@@ -53,8 +53,8 @@ exports.init = (server) ->
             socket.leave(socket.community)
           socket.community = id
           socket.join(id)
-          socket.emit "fame:down-change:progress", community.progress
-          socket.emit "fame:down-change:fame", community.fame
+          socket.emit "title:down-change:progress", community.progress
+          socket.emit "title:down-change:fame", community.fame
           socket.emit "title:down-change:name", community.name
           socket.emit "title:down-change:users", community.users.length
           logRouter = {}
