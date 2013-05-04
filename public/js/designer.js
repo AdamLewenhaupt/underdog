@@ -8,7 +8,6 @@ define([
 	, "ufronts/motd"
 	, "ufronts/title"
 	, "ufronts/profile"
-	, "ufronts/fame"
 	, "ufront/staterouter"
 	, "ufront-router"], 
 
@@ -22,7 +21,6 @@ define([
 		, MOTD
 		, Title
 		, Profile
-		, Fame
 		, StateRouter
 		, UFrontRouter){
 
@@ -35,8 +33,6 @@ define([
 	var profile = new Profile;
 
 	var growthStat = new Stat;
-
-	var fame = new Fame;
 	
 	var background = new UGrid({ class: "background" });
 
@@ -75,14 +71,7 @@ define([
 		// <<< Define top >>>
 		communityGrid.splitV(30, function (grid){
 
-			//Define Title, (Member)OTD and fame.
-			grid.left.splitH(16, function (grid){
-
-				title.provide(grid.down);
-
-				motd.provide(grid.up);
-				motd.$el.html("<img src='/images/temp-logo.png' />");
-			});
+			title.provide(grid.left);
 
 			hotspot.provide(grid.right);
 		});
