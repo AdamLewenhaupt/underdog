@@ -1,5 +1,5 @@
-define(["ufront/ufront", "priority-queue", "jquery-ui"], 
-	function (UFront, PriorityQueue, $ui){
+define(["ufront/ufront", "priority-queue", "jquery-ui", "jquery"], 
+	function (UFront, PriorityQueue, $ui, $){
 
 	var NotificationCenter = new UFront({
 
@@ -22,10 +22,10 @@ define(["ufront/ufront", "priority-queue", "jquery-ui"],
 				attributes: [
 					{
 						name: "notifications",
-						type: Object,
 
 						"down-parse": function (data, model){
 							model.get("queue").push(data.data, data.priority);
+							model.trigger("change:queue");
 						}
 					}
 				]
@@ -37,25 +37,43 @@ define(["ufront/ufront", "priority-queue", "jquery-ui"],
 
 				onRend: function (view){
 
-					var $note = view.$el.find(".note"),
-						color = $note.css("background-color"),
-						highlight = "#FFFFFF";
+					var $note = view.$el.find(".note");
+					$note.effect("pulsate", {times: 1}, 1000);
+				},
 
-					$note.animate({
+				ready: function (view){
+				
+					view.model.on("render-next", function (){
 
-						backgroundColor: highlight
+							var $note = view.$el.find(".note");
 
-					}, 400, function (){
-
-						$note.animate({
-							backgroundColor: color
-						}, 50);
+							$note.animate({opacity:0}, 1000, function (){
+								view.model.trigger("next");
+							});
+						
 					});
+
 				}
 			}
 		},
 
 		extend: function (main){
+
+			main.onInit('view', function (view){
+
+				var $note = view.$el.find(".note");
+
+				view.model.on("render-next", function (){
+
+					$(function (){
+						$note.hide(function (){
+							console.log("hello");
+							view.model.trigger("next");
+						});
+					})
+					
+				});
+			});
 
 			main.onInit('model', function (model){
 
@@ -68,15 +86,18 @@ define(["ufront/ufront", "priority-queue", "jquery-ui"],
 					}
 				});
 
-				model.get("queue").push({
+				model.on("next", function (){
 
-					html: "This is a test notification",
-					css: { color: "white", "background-color": "#4DBF4D" },
-					duration: 10
+					var queue = model.get("queue");
 
-				}, 1);
+					if(!queue.empty()) {
+						model.show(queue.pop());
+					} else {
+						model.set("current", false);
+						model.set("notifying", false);
+					}
 
-				model.trigger("change:queue");
+				});
 
 			});
 
@@ -88,9 +109,9 @@ define(["ufront/ufront", "priority-queue", "jquery-ui"],
 
 					setTimeout(function (){
 
-						model.trigger("next");
+						model.trigger("render-next");
 						
-					}, note.duration);
+					}, note.duration * 1000);
 				}
 
 				var css = "";

@@ -21,6 +21,11 @@ define([], function(){
 			});
 
 			if(options.onRend) options.onRend(this);
+
+			if(options.ready) {
+				options.ready(this);
+				delete options.ready; //Called once.
+			}
 		};
 
 		main.onInit('view', function(view){
