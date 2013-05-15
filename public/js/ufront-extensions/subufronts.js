@@ -9,6 +9,8 @@ define([], function (){
 				(options.subs || []).forEach(function (sub){
 
 					main.onRend(function (){
+						console.log("rendering");
+						console.log(sub.ufront.$el);
 						view.$el.find(sub.el).html(sub.ufront.$el);
 					});
 				});
