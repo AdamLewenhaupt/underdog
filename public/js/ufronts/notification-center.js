@@ -24,6 +24,8 @@ define(["ufront/ufront", "priority-queue", "jquery-ui", "jquery"],
 						name: "notifications",
 
 						"down-parse": function (data, model){
+
+							console.log(data);
 							model.get("queue").push(data.data, data.priority);
 							model.trigger("change:queue");
 						}
@@ -67,7 +69,6 @@ define(["ufront/ufront", "priority-queue", "jquery-ui", "jquery"],
 
 					$(function (){
 						$note.hide(function (){
-							console.log("hello");
 							view.model.trigger("next");
 						});
 					})
