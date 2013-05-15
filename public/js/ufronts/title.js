@@ -20,8 +20,11 @@ define([
 
 				rendable: {
 					template: 
-					"<h1><%= name %></h1>"+
-					"<div class='fame-container'><div class='progress' /><div class='level'>Fame <%= fame %></div></div>",
+					"<img src='/images/temp-logo.png' />"+
+					"<div class='wrapper' >"+
+						"<h1><%= name %></h1>"+
+						"<div class='fame-container'><div class='progress' /><div class='level'>Fame <%= fame %></div></div>"+
+					"</div>",
 
 					triggers: [
 						"name",
@@ -47,6 +50,10 @@ define([
 						progress: 0,
 						trigger: "progress"
 					}]
+				},
+
+				buttons: {
+					buttons: ["img"]
 				}
 			}
 		});

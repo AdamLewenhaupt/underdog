@@ -65,4 +65,6 @@ requirejs([
 		design();
 
 		console.log("kickin' after: " + (new Date().getTime() - start));
+		
+		IO.emit("ready");
 });

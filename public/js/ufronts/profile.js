@@ -4,10 +4,17 @@ define([
 		"community",
 		"jquery",
 		"io",
-		"ufront-router"
+		"ufront-router",
+		"ufronts/notification-center"
 	], 
 
-	function (UFront, User, Community, $, IO, UFrontRouter){
+	function (UFront,
+			 User,
+			 Community,
+			 $,
+			 IO,
+			 UFrontRouter,
+			 NotificationCenter){
 
 	var Profile = new UFront({
 		type: "profile",
@@ -49,6 +56,7 @@ define([
 							"<% if(!isMember){ %><div class='get-member-btn' >Join community</div><% }"+
 							"else { %><div class='del-member-btn' >Leave community</div><% } %>"+
 							"<div class='recommend-btn'>Share community</div>"+
+							"<div class='notification-center'></div>"+
 							"<div class='logout-btn'>Logout</div>"+
 							"<% if(!editing){ %><div class='create-btn'>Create Feed</div><% }"+
 							"else { %><div class='save-btn'>Save Feed</div><% } %>"+
@@ -83,6 +91,15 @@ define([
 						el: "input[name='password']",
 						default: "Password",
 						isPassword: true
+					}
+				]
+			},
+
+			"subufronts": {
+				subs: [
+					{
+						el: ".notification-center",
+						ufront: new NotificationCenter
 					}
 				]
 			}

@@ -33,6 +33,13 @@ exports.init = (server) ->
   )
   io.sockets.on "connection", (socket) ->
 
+    socket._ready = []
+    socket.ready = (fn) -> socket._ready.push fn
+
+    socket.on "ready", () ->
+      socket._ready.forEach (fn) ->
+        fn(socket)
+
     onSocket.forEach (fn) ->
       fn(socket)
 

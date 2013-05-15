@@ -6,3 +6,4 @@ exports.services =
   io: require("./io")
   auth: require("./auth")
   community: require("./community")
+  notifications: require('./notifications')
