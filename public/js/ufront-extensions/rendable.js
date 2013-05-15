@@ -12,6 +12,7 @@ define([], function(){
 		main.View.template = _.template(options.template);
 
 		main.View.render = function(){
+
 			var view = this;
 			
 			this.$el.html(this.template(this.model.attributes));
