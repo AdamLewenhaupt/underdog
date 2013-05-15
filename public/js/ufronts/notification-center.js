@@ -80,9 +80,12 @@ define(["ufront/ufront", "priority-queue", "jquery-ui", "jquery"],
 
 				model.on('change:queue', function (){
 
+					console.log("changing");
+
 					if(!model.get("notifying")) {
 
 						model.set("notifying", true);
+						console.log("showing");
 						model.show(model.get("queue").pop());
 					}
 				});
@@ -104,6 +107,8 @@ define(["ufront/ufront", "priority-queue", "jquery-ui", "jquery"],
 
 			main.Model.show = function (note){
 
+				console.log("showing 2", note);
+
 				var model = this;
 
 				if(note.duration){
@@ -120,6 +125,7 @@ define(["ufront/ufront", "priority-queue", "jquery-ui", "jquery"],
 				for(attr in note.css)
 					css += (attr + ":" + note.css[attr] + ";")
 
+				console.log("setting current");
 				model.set("current", {
 
 					html: note.html,
