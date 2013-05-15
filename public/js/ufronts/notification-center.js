@@ -39,6 +39,8 @@ define(["ufront/ufront", "priority-queue", "jquery-ui", "jquery"],
 
 				onRend: function (view){
 
+					console.log("rendering");
+
 					var $note = view.$el.find(".note");
 					$note.effect("pulsate", {times: 1}, 1000);
 				},
