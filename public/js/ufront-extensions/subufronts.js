@@ -11,8 +11,11 @@ define([], function (){
 			main.onInit('view', function (view){
 
 				console.log("applies");
+				console.log(main.onRend);
 
 				(options.subs || []).forEach(function (sub){
+
+					console.log("curr:", sub);
 
 					main.onRend(function (){
 						console.log("rendering");
