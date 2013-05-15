@@ -2,9 +2,15 @@ define([], function (){
 
 	return function (main, options){
 
+		console.log("runs");
+
 		if (main.hasAttr("rendable")) {
 
+			console.log("has");
+
 			main.onInit('view', function (view){
+
+				console.log("applies");
 
 				(options.subs || []).forEach(function (sub){
 
