@@ -11,6 +11,12 @@ define(["ufronts/chat/input"
 
 	function(Input, Rooms, View, UFront, UGrid, _, SUGrid, User, IO){
 
+	function parseInput(text) {
+		var result;
+		result = text.replace(/([-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?)/gi, "<a href='$1'>$1</a>");
+		return result;
+	}
+
 	var Chat = new UFront({
 		type: "chat",
 		className: "chat",
@@ -63,10 +69,12 @@ define(["ufronts/chat/input"
 						logg = main.childs.view.Model.get("logg"),
 						last = _.last(logg);
 
+					var parsed = parseInput(text);
+
 					if(last && last.sender === "Me") {
-						last.message += "<br/>" + text;
+						last.message += "<br/>" + parsed;
 					} else {						
-						logg.push({ sender: "Me", message: text });
+						logg.push({ sender: "Me", message: parsed });
 					}
 
 					main.childs.view.Model.trigger('change:logg');

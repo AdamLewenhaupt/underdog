@@ -2,9 +2,15 @@
 #A project wrapper for the socket.io package.
 #
 persistent = require('../persistant')
+escape = require('escape-html')
 _io = require("socket.io")
 io = false
 onSocket = []
+
+parseMessage = (text) ->
+  result = undefined
+  result = text.replace(/([-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?)/g, "<a href='$1'>$1</a>")
+  result
 
 # Pre-programmed push-behavior.
 pushable =
@@ -75,6 +81,7 @@ exports.init = (server) ->
       persistent.access("chatlog").findById update.room, (err, log) ->
         unless err
           if socket.community
+            update.data.message = parseMessage escape(update.data.message)
             log.names.push update.data.sender
             log.messages.push update.data.message
             log.save()
